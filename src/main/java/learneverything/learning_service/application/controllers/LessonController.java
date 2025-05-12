@@ -23,6 +23,6 @@ public class LessonController {
 
     @PostMapping("")
     public String create(@RequestBody LessonDTO lessonDTO){
-
+        return null;
     }
 }

@@ -6,10 +6,11 @@ import learneverything.learning_service.database.entities.LearningEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 
-@Component
+@Service
 @RequiredArgsConstructor
 public class LearningRepository {
     private final Map<Class,CRUDLearningRepository> learningRepositoryMap = new HashMap<>();

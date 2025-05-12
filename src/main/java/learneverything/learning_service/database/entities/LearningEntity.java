@@ -2,14 +2,12 @@ package learneverything.learning_service.database.entities;
 
 import jakarta.persistence.*;
 import learneverything.learning_service.database.entities.learning_entities.LearningType;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+@EqualsAndHashCode(callSuper = true)
 @MappedSuperclass
-@Getter
-@Setter
+@Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public abstract class LearningEntity extends BaseEntity{
     @Id

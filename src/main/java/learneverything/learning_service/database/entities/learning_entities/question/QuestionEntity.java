@@ -24,8 +24,21 @@ public class QuestionEntity extends LearningEntity {
     @Enumerated(EnumType.STRING)
     QuestionType questionType;
 
+    String description;
+
     @JdbcTypeCode(SqlTypes.JSON)
     private Map<String, Object> answer;
+
+    @Getter
+    @AllArgsConstructor
+    public enum QuestionType {
+        MULTI_CHOICE(1,"multi_choice"),
+        SINGLE_CHOICE(2,"single_choice"),
+        FILL(3,"fill");
+
+        private final Integer id;
+        private final String name;
+    }
 }
 
 
