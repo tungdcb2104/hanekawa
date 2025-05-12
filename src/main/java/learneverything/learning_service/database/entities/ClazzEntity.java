@@ -25,6 +25,6 @@ public class ClazzEntity extends BaseEntity{
     @Column(name = "author_id")
     Integer authorId;
 
-    @Column(name = "image")
+    @Column(name = "image_url")
     String image;
 }
