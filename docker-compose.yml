@@ -1,0 +1,15 @@
+services:
+  pgsql:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: '${DB_USERNAME:-postgres}'
+      POSTGRES_PASSWORD: '${DB_PASSWORD:-12345678}'
+      POSTGRES_DB: '${DB_DATABASE:-le_learning_db}'
+    ports:
+      - '${DB_PORT:-5433}:5432'
+    volumes:
+      - 'pgsql-data:/var/lib/postgresql/data'
+      - './learning_service.sql:/docker-entrypoint-initdb.d/learning_service.sql'
+volumes:
+  pgsql-data:
+    driver: local
