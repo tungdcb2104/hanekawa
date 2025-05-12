@@ -12,10 +12,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class LessonDTO<T extends LearningDTO> {
+public class LessonDTO {
     Integer id;
     String title;
+    Integer chapterId;
     String description;
     String learningType;
-    List<T> listLearning;
+    List<LearningDTO> listLearning;
 }

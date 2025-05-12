@@ -1,7 +1,8 @@
-package learneverything.learning_service.database.repositories.learning_repository;
+package learneverything.learning_service.domain.services.learning_repository.crud_learning;
 
 import learneverything.learning_service.database.entities.learning_entities.question.QuestionEntity;
 import learneverything.learning_service.database.repositories.QuestionRepository;
+import learneverything.learning_service.domain.services.learning_repository.ICRUDLearningService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class QuestionCRUDRepository implements CRUDLearningRepository<QuestionEntity> {
+public class CRUDQuestionService implements ICRUDLearningService<QuestionEntity> {
     @Autowired
     private QuestionRepository questionRepository;
 
@@ -28,14 +29,14 @@ public class QuestionCRUDRepository implements CRUDLearningRepository<QuestionEn
 
     @Override
     public QuestionEntity saveLearning(QuestionEntity learning) {
-//        return questionRepository.save(learning);
-        return null;
+        return questionRepository.save(learning);
+//        return null;
     }
 
     @Override
     public List<QuestionEntity> saveLearning(List<QuestionEntity> learnings) {
-//        return questionRepository.saveAll(learnings);
-        return null;
+        return questionRepository.saveAll(learnings);
+//        return null;
     }
 
     @Override

@@ -1,7 +1,6 @@
 package learneverything.learning_service.database.entities;
 
 import jakarta.persistence.*;
-import learneverything.learning_service.database.entities.learning_entities.LearningType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -27,6 +26,5 @@ public class LessonEntity extends BaseEntity{
     String description;
 
     @Column(name = "learning_type")
-    @Enumerated(EnumType.STRING)
-    LearningType learningType;
+    String learningType;
 }

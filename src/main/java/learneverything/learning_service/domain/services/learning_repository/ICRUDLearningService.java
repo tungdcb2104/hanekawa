@@ -1,10 +1,10 @@
-package learneverything.learning_service.database.repositories.learning_repository;
+package learneverything.learning_service.domain.services.learning_repository;
 
 import learneverything.learning_service.database.entities.LearningEntity;
 
 import java.util.List;
 
-public interface CRUDLearningRepository<T extends LearningEntity> {
+public interface ICRUDLearningService<T extends LearningEntity> {
     /**
      *
      * @param id
