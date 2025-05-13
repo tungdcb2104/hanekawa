@@ -17,20 +17,17 @@ public class CRUDQuestionService implements ICRUDLearningService<QuestionEntity>
 
     @Override
     public QuestionEntity getLearning(Long id) {
-        return null;
-//        return questionRepository.getReferenceById(id);
+        return questionRepository.getReferenceById(id);
     }
 
     @Override
     public List<QuestionEntity> getLearningByLesson(Integer lessonId) {
-//        return questionRepository.getQuestionsOfLesson(lessonId);
-        return null;
+        return questionRepository.getQuestionsOfLesson(lessonId);
     }
 
     @Override
     public QuestionEntity saveLearning(QuestionEntity learning) {
         return questionRepository.save(learning);
-//        return null;
     }
 
     @Override
@@ -40,13 +37,13 @@ public class CRUDQuestionService implements ICRUDLearningService<QuestionEntity>
 
     @Override
     public void deleteLearning(QuestionEntity learning) {
-//        questionRepository.delete(learning);
+        questionRepository.delete(learning);
         return;
     }
 
     @Override
     public void deleteLearning(List<QuestionEntity> learnings) {
-//        questionRepository.deleteAll(learnings);
+        questionRepository.deleteAll(learnings);
         return;
     }
 }

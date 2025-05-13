@@ -4,12 +4,10 @@ import learneverything.learning_service.database.entities.learning_entities.voca
 import learneverything.learning_service.database.repositories.VocabularyRepository;
 import learneverything.learning_service.domain.dtos.lesson.LessonDTO;
 import learneverything.learning_service.domain.services.LessonService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/lesson")
@@ -27,5 +25,10 @@ public class LessonController {
     @PostMapping("")
     public ResponseEntity<LessonDTO> create(@RequestBody LessonDTO lessonDTO){
         return ResponseEntity.ok(lessonService.create(lessonDTO));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<LessonDTO> get(@PathVariable Integer id){
+        return ResponseEntity.ok(lessonService.get(id));
     }
 }
