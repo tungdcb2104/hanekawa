@@ -3,13 +3,18 @@ package learneverything.learning_service.domain.enums;
 import learneverything.learning_service.application.exceptions.BaseException;
 import learneverything.learning_service.application.exceptions.Error;
 import learneverything.learning_service.database.entities.LearningEntity;
+import learneverything.learning_service.database.entities.learning_entities.flashcard.FlashCardEntity;
 import learneverything.learning_service.database.entities.learning_entities.question.QuestionEntity;
+import learneverything.learning_service.database.repositories.FlashCardRepository;
 import learneverything.learning_service.database.repositories.QuestionRepository;
 import learneverything.learning_service.domain.dtos.learning.LearningDTO;
+import learneverything.learning_service.domain.dtos.learning.flashcard.FlashCardDTO;
 import learneverything.learning_service.domain.dtos.learning.question.QuestionDTO;
+import learneverything.learning_service.domain.mappers.FlashCardMapper;
 import learneverything.learning_service.domain.mappers.ILearningMapper;
 import learneverything.learning_service.domain.mappers.QuestionMapper;
 import learneverything.learning_service.domain.services.learning_repository.ICRUDLearningService;
+import learneverything.learning_service.domain.services.learning_repository.crud_learning.CRUDFlashCardService;
 import learneverything.learning_service.domain.services.learning_repository.crud_learning.CRUDQuestionService;
 import lombok.Getter;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,7 +23,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public enum LearningType {
 //    VOCABULARY("vocabulary", VocabularyEntity.class,Vocabu),
     QUESTION("question", QuestionEntity.class, QuestionMapper.class, QuestionRepository.class, CRUDQuestionService.class, QuestionDTO.class),
-//    FLASHCARD("flashcard", FlashcardEntity.class,Flash)
+    FLASHCARD("flashcard", FlashCardEntity.class, FlashCardMapper.class, FlashCardRepository.class, CRUDFlashCardService.class, FlashCardDTO.class)
     ;
 
     LearningType(String name,

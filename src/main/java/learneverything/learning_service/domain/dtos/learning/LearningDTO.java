@@ -2,6 +2,7 @@ package learneverything.learning_service.domain.dtos.learning;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import learneverything.learning_service.domain.dtos.learning.flashcard.FlashCardDTO;
 import learneverything.learning_service.domain.dtos.learning.question.QuestionDTO;
 import lombok.*;
 
@@ -14,6 +15,7 @@ import lombok.*;
 )
 @JsonSubTypes({
         @JsonSubTypes.Type(value = QuestionDTO.class, name = "question"),
+        @JsonSubTypes.Type(value = FlashCardDTO.class, name = "flashcard"),
 })
 public abstract class LearningDTO {
     Long id;
