@@ -31,7 +31,7 @@ public class LearningMapper {
     }
 
     public LearningEntity dtoToEntity(LearningDTO dto){
-        Class<? extends LearningDTO> dtoClass = dto.getClass();
+        Class dtoClass = dto.getClass();
         LearningType learningType = LearningType.getLearningTypeByDtoClass(dtoClass);
         Class learningMapperClass = learningType.getMapperClass();
         ILearningMapper learningMapper = mapperMap.get(learningMapperClass);

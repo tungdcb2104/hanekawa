@@ -36,7 +36,6 @@ public class CRUDQuestionService implements ICRUDLearningService<QuestionEntity>
     @Override
     public List<QuestionEntity> saveLearning(List<QuestionEntity> learnings) {
         return questionRepository.saveAll(learnings);
-//        return null;
     }
 
     @Override

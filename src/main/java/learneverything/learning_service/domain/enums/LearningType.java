@@ -9,7 +9,10 @@ import learneverything.learning_service.database.repositories.FlashCardRepositor
 import learneverything.learning_service.database.repositories.QuestionRepository;
 import learneverything.learning_service.domain.dtos.learning.LearningDTO;
 import learneverything.learning_service.domain.dtos.learning.flashcard.FlashCardDTO;
+import learneverything.learning_service.domain.dtos.learning.question.FillQuestionDTO;
+import learneverything.learning_service.domain.dtos.learning.question.MultiChoiceQuestionDTO;
 import learneverything.learning_service.domain.dtos.learning.question.QuestionDTO;
+import learneverything.learning_service.domain.dtos.learning.question.SingleChoiceQuestionDTO;
 import learneverything.learning_service.domain.mappers.FlashCardMapper;
 import learneverything.learning_service.domain.mappers.ILearningMapper;
 import learneverything.learning_service.domain.mappers.QuestionMapper;
@@ -22,7 +25,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 @Getter
 public enum LearningType {
 //    VOCABULARY("vocabulary", VocabularyEntity.class,Vocabu),
+
+    // QUESTION
     QUESTION("question", QuestionEntity.class, QuestionMapper.class, QuestionRepository.class, CRUDQuestionService.class, QuestionDTO.class),
+    SINGLE_CHOICE_QUESTION("single_choice_question",QuestionEntity.class, QuestionMapper.class,QuestionRepository.class, CRUDQuestionService.class, SingleChoiceQuestionDTO.class),
+    MULTI_CHOICE_QUESTION("single_choice_question",QuestionEntity.class, QuestionMapper.class, QuestionRepository.class, CRUDQuestionService.class, MultiChoiceQuestionDTO.class),
+    FILL_QUESTION("fill_question",QuestionEntity.class, QuestionMapper.class, QuestionRepository.class, CRUDQuestionService.class, FillQuestionDTO.class),
+
+    // FLASHCARD
     FLASHCARD("flashcard", FlashCardEntity.class, FlashCardMapper.class, FlashCardRepository.class, CRUDFlashCardService.class, FlashCardDTO.class)
     ;
 

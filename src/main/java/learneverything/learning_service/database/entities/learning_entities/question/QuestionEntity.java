@@ -34,7 +34,7 @@ public class QuestionEntity extends LearningEntity {
     public enum QuestionType {
         MULTI_CHOICE(1,"multi_choice"),
         SINGLE_CHOICE(2,"single_choice"),
-        FILL(3,"fill");
+        FILL(3,"fill_question");
 
         private final Integer id;
         private final String name;
