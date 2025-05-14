@@ -120,13 +120,10 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     public LessonDTO update(LessonDTO lesson) {
-        LessonEntity lessonEntity = lessonRepository.findById(lesson.getId())
-                .orElseThrow(() -> new BaseException(Error.NOT_FOUND_LESSON, String.valueOf(lesson.getId())));
-
-        lessonEntity.setTitle(lesson.getTitle());
-        lessonEntity.setChapterId(lesson.getChapterId());
-        lessonEntity.setDescription(lesson.getDescription());
-        lessonEntity.setLearningType(lesson.getLearningType());
+        if (!lessonRepository.existsById(lesson.getId())) {
+            throw new BaseException(Error.NOT_FOUND_LESSON, String.valueOf(lesson.getId()));
+        }
+        LessonEntity lessonEntity = lessonMapper.dtoToEntity(lesson);
 
         lessonRepository.save(lessonEntity);
 
@@ -136,9 +133,7 @@ public class LessonServiceImpl implements LessonService {
 
         if (Objects.nonNull(repository)) {
             List<LearningEntity> existingLearnings = repository.getLearningByLesson(lesson.getId());
-            System.out.println(existingLearnings);
             List<LearningDTO> newLearnings = lesson.getListLearning();
-            System.out.println(newLearnings);
 
             // Find items to delete (exist in DB but not in new list)
             List<LearningEntity> learningsToDelete = existingLearnings.stream()
@@ -146,7 +141,6 @@ public class LessonServiceImpl implements LessonService {
                             .noneMatch(newItem -> Objects.nonNull(newItem.getId())
                                     && newItem.getId().equals(existing.getId())))
                     .toList();
-            System.out.println(learningsToDelete);
 
             // Delete unnecessary items
             if (!learningsToDelete.isEmpty()) {
@@ -154,10 +148,11 @@ public class LessonServiceImpl implements LessonService {
             }
 
             // Update existing and add new items
+            Integer lessonId = lessonEntity.getId();
             List<LearningEntity> learningsToSave = newLearnings.stream()
                     .map(dto -> {
                         LearningEntity entity = learningMapper.dtoToEntity(dto);
-                        entity.setLessonId(lessonEntity.getId());
+                        entity.setLessonId(lessonId);
 
                         // If this is an existing learning, find and preserve its ID
                         if (dto.getId() != null) {
