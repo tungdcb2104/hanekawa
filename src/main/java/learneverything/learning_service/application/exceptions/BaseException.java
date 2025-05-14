@@ -10,6 +10,7 @@ public class BaseException extends RuntimeException{
     private String[] errorTemplate;
 
     public BaseException(Error error, String... errorTemplate) {
+        super(error.getMessage());
         this.error = error;
         this.errorTemplate = errorTemplate;
     }

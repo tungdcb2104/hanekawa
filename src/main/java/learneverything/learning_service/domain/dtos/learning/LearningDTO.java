@@ -25,5 +25,4 @@ import lombok.*;
 })
 public abstract class LearningDTO {
     Long id;
-    String type;
 }

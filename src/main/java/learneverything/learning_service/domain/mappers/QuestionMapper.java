@@ -1,5 +1,7 @@
 package learneverything.learning_service.domain.mappers;
 
+import learneverything.learning_service.application.exceptions.BaseException;
+import learneverything.learning_service.application.exceptions.Error;
 import learneverything.learning_service.database.entities.LearningEntity;
 import learneverything.learning_service.database.entities.learning_entities.question.QuestionEntity;
 import learneverything.learning_service.domain.dtos.learning.LearningDTO;
@@ -7,6 +9,7 @@ import learneverything.learning_service.domain.dtos.learning.question.FillQuesti
 import learneverything.learning_service.domain.dtos.learning.question.MultiChoiceQuestionDTO;
 import learneverything.learning_service.domain.dtos.learning.question.QuestionDTO;
 import learneverything.learning_service.domain.dtos.learning.question.SingleChoiceQuestionDTO;
+import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -43,7 +46,6 @@ public class QuestionMapper implements ILearningMapper {
         questionDTO.setId(questionEntity.getId());
         questionDTO.setQuestion(questionEntity.getQuestion());
         questionDTO.setDescription(questionEntity.getDescription());
-        questionDTO.setType("question");
         return questionDTO;
     }
 
@@ -58,24 +60,25 @@ public class QuestionMapper implements ILearningMapper {
 
         Map<String,Object> answer = new HashMap<>();
         switch (questionDTO.getQuestionType()){
-            case "single_choice_question" :
+            case "single_choice" :
                 SingleChoiceQuestionDTO singleChoiceQuestionDTO = (SingleChoiceQuestionDTO) questionDTO;
                 question.setQuestionType(QuestionEntity.QuestionType.SINGLE_CHOICE);
                 answer.put("choices",singleChoiceQuestionDTO.getChoices());
                 answer.put("correctChoice",singleChoiceQuestionDTO.getCorrectChoice());
                 break;
-            case "multi_choice_question" :
+            case "multi_choice" :
                 MultiChoiceQuestionDTO multiChoiceQuestionDTO = (MultiChoiceQuestionDTO) questionDTO;
                 question.setQuestionType(QuestionEntity.QuestionType.MULTI_CHOICE);
                 answer.put("choices",multiChoiceQuestionDTO.getChoices());
                 break;
-            case "fill_question" :
+            case "fill" :
                 FillQuestionDTO fillQuestionDTO = (FillQuestionDTO) questionDTO;
                 question.setQuestionType(QuestionEntity.QuestionType.FILL);
                 answer.put("answer",fillQuestionDTO.getAnswer());
                 break;
+            default:
+                throw new BaseException(Error.BAD_REQUEST);
         }
-
         question.setAnswer(answer);
         return question;
     }
