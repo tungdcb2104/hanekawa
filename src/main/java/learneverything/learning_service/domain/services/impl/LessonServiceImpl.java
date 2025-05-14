@@ -49,8 +49,9 @@ public class LessonServiceImpl implements LessonService {
     public void delete(List<LearningEntity> learnings){
         if (Objects.isNull(learnings) || learnings.isEmpty())return;
         Class<? extends LearningEntity> clazz = learnings.get(0).getClass();
+        LearningType learningType = LearningType.getLearningTypeByEntityClass(clazz);
 
-        ICRUDLearningService repository = learningRepositoryMap.get(clazz);
+        ICRUDLearningService repository = learningRepositoryMap.get(learningType.getCrudServiceClass());
         if (Objects.isNull(repository)){
             throw new BaseException(Error.INVALID_LESSON);
         }
@@ -119,11 +120,70 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     public LessonDTO update(LessonDTO lesson) {
-        return null;
+        if (!lessonRepository.existsById(lesson.getId())) {
+            throw new BaseException(Error.NOT_FOUND_LESSON, String.valueOf(lesson.getId()));
+        }
+        LessonEntity lessonEntity = lessonMapper.dtoToEntity(lesson);
+
+        lessonRepository.save(lessonEntity);
+
+        String type = lessonEntity.getLearningType();
+        LearningType learningType = LearningType.getLearningTypeByName(type);
+        ICRUDLearningService repository = learningRepositoryMap.get(learningType.getCrudServiceClass());
+
+        if (Objects.nonNull(repository)) {
+            List<LearningEntity> existingLearnings = repository.getLearningByLesson(lesson.getId());
+            List<LearningDTO> newLearnings = lesson.getListLearning();
+
+            // Find items to delete (exist in DB but not in new list)
+            List<LearningEntity> learningsToDelete = existingLearnings.stream()
+                    .filter(existing -> newLearnings.stream()
+                            .noneMatch(newItem -> Objects.nonNull(newItem.getId())
+                                    && newItem.getId().equals(existing.getId())))
+                    .toList();
+
+            // Delete unnecessary items
+            if (!learningsToDelete.isEmpty()) {
+                repository.deleteLearning(learningsToDelete);
+            }
+
+            // Update existing and add new items
+            Integer lessonId = lessonEntity.getId();
+            List<LearningEntity> learningsToSave = newLearnings.stream()
+                    .map(dto -> {
+                        LearningEntity entity = learningMapper.dtoToEntity(dto);
+                        entity.setLessonId(lessonId);
+
+                        // If this is an existing learning, find and preserve its ID
+                        if (dto.getId() != null) {
+                            existingLearnings.stream()
+                                    .filter(existing -> existing.getId().equals(dto.getId()))
+                                    .findFirst()
+                                    .ifPresent(existing -> entity.setId(existing.getId()));
+                        }
+                        return entity;
+                    })
+                    .toList();
+
+            save(learningsToSave);
+        }
+
+        return lesson;
     }
 
     @Override
     public String delete(Integer id) {
-        return "";
+        LessonEntity lessonEntity = lessonRepository.findById(id)
+                .orElseThrow(() -> new BaseException(Error.NOT_FOUND_LESSON, String.valueOf(id)));
+
+        // Delete learning entities associated with the lesson
+        String type = lessonEntity.getLearningType();
+        LearningType learningType = LearningType.getLearningTypeByName(type);
+        ICRUDLearningService repository = learningRepositoryMap.get(learningType.getCrudServiceClass());
+        delete(repository.getLearningByLesson(id));
+
+        lessonRepository.delete(lessonEntity);
+
+        return "Lesson with ID " + id + " deleted successfully.";
     }
 }
