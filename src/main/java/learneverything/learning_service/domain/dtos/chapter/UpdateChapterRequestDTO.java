@@ -11,10 +11,11 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateChapterDTO {
+public class UpdateChapterRequestDTO {
     @NotNull
     String title;
     String description;
+    Integer clazzId;
     String image;
 
     List<LessonDTO> listLesson;
