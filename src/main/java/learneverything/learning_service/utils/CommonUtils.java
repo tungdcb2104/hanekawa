@@ -1,6 +1,8 @@
 package learneverything.learning_service.utils;
 
-import org.springframework.beans.factory.annotation.Value;
+
+import learneverything.learning_service.application.exceptions.BaseException;
+import learneverything.learning_service.application.exceptions.Error;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,16 +11,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class CommonUtils {
-    @Value("${app.max-file-size-mb}")
-    private static int maxFileSizeMb;
+    private static final long maxFileSize = 10485760; // TODO: should use value in variable of properties file
 
     public static String saveFile(String uploadDir, String fileName, byte[] bytes) throws IOException {
         if (fileName == null || fileName.isBlank() || fileName.contains("..")) {
-            throw new IOException("Invalid file name provided.");
+            throw new BaseException(Error.INVALID_FILE);
         }
 
-        if (bytes.length > maxFileSizeMb * 1024 * 1024) {
-            throw new IOException("File size exceeds the maximum limit of " + maxFileSizeMb + " MB.");
+        if (bytes.length > maxFileSize) {
+            throw new BaseException(Error.PAYLOAD_TOO_LARGE);
         }
 
         File dir = new File(uploadDir);

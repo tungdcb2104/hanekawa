@@ -17,6 +17,6 @@ public class UploadController {
     public ResponseEntity<String> upload(@RequestParam("file") MultipartFile file) throws IOException {
         String saveFilePath = CommonUtils.saveFile("uploads", file.getOriginalFilename(), file.getBytes());
 
-        return ResponseEntity.ok("File uploaded successfully");
+        return ResponseEntity.ok("File uploaded successfully, url: " + saveFilePath);
     }
 }
