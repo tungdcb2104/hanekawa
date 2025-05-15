@@ -5,8 +5,10 @@ import learneverything.learning_service.application.exceptions.Error;
 import learneverything.learning_service.database.entities.LearningEntity;
 import learneverything.learning_service.database.entities.learning_entities.flashcard.FlashCardEntity;
 import learneverything.learning_service.database.entities.learning_entities.question.QuestionEntity;
+import learneverything.learning_service.database.entities.learning_entities.vocabulary.VocabularyEntity;
 import learneverything.learning_service.database.repositories.FlashCardRepository;
 import learneverything.learning_service.database.repositories.QuestionRepository;
+import learneverything.learning_service.database.repositories.VocabularyRepository;
 import learneverything.learning_service.domain.dtos.learning.LearningDTO;
 import learneverything.learning_service.domain.dtos.learning.flashcard.FlashCardDTO;
 import learneverything.learning_service.domain.dtos.learning.question.FillQuestionDTO;
@@ -16,15 +18,18 @@ import learneverything.learning_service.domain.dtos.learning.question.SingleChoi
 import learneverything.learning_service.domain.mappers.FlashCardMapper;
 import learneverything.learning_service.domain.mappers.ILearningMapper;
 import learneverything.learning_service.domain.mappers.QuestionMapper;
+import learneverything.learning_service.domain.mappers.VocabularyMapper;
 import learneverything.learning_service.domain.services.learning_repository.ICRUDLearningService;
 import learneverything.learning_service.domain.services.learning_repository.crud_learning.CRUDFlashCardService;
 import learneverything.learning_service.domain.services.learning_repository.crud_learning.CRUDQuestionService;
+import learneverything.learning_service.domain.services.learning_repository.crud_learning.CRUDVocabularyService;
 import lombok.Getter;
+import org.antlr.v4.runtime.Vocabulary;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 @Getter
 public enum LearningType {
-//    VOCABULARY("vocabulary", VocabularyEntity.class,Vocabu),
+    VOCABULARY("vocabulary", VocabularyEntity.class, VocabularyMapper.class, VocabularyRepository.class, CRUDVocabularyService.class, Vocabulary.class),
 
     // QUESTION
     QUESTION("question", QuestionEntity.class, QuestionMapper.class, QuestionRepository.class, CRUDQuestionService.class, QuestionDTO.class),
