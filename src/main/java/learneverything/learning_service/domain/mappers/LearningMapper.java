@@ -3,6 +3,7 @@ package learneverything.learning_service.domain.mappers;
 import learneverything.learning_service.database.entities.LearningEntity;
 import learneverything.learning_service.domain.dtos.learning.LearningDTO;
 import learneverything.learning_service.domain.enums.LearningType;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,6 +31,7 @@ public class LearningMapper {
         return learningMapper.entityToDto(entity);
     }
 
+    @SneakyThrows
     public LearningEntity dtoToEntity(LearningDTO dto){
         Class dtoClass = dto.getClass();
         LearningType learningType = LearningType.getLearningTypeByDtoClass(dtoClass);

@@ -4,6 +4,7 @@ import learneverything.learning_service.application.exceptions.BaseException;
 import learneverything.learning_service.application.exceptions.Error;
 import learneverything.learning_service.database.entities.LearningEntity;
 import learneverything.learning_service.database.entities.LessonEntity;
+import learneverything.learning_service.database.repositories.ChapterRepository;
 import learneverything.learning_service.database.repositories.LessonRepository;
 import learneverything.learning_service.domain.enums.LearningType;
 import learneverything.learning_service.domain.mappers.LearningMapper;
@@ -23,6 +24,7 @@ public class LessonServiceImpl implements LessonService {
     private LessonRepository lessonRepository;
     private LessonMapper lessonMapper;
     private LearningMapper learningMapper;
+    private ChapterRepository chapterRepository;
 
     private final Map<Class, ICRUDLearningService> learningRepositoryMap = new HashMap<>();
 
@@ -85,6 +87,11 @@ public class LessonServiceImpl implements LessonService {
     @Override
     public LessonDTO create(LessonDTO lesson) {
         LessonEntity lessonEntity = lessonMapper.dtoToEntity(lesson);
+        // Check if the chapter exists
+        if(chapterRepository.findById(lesson.getChapterId()).isEmpty()){
+            throw new BaseException(Error.NOT_FOUND_CHAPTER, lesson.getChapterId().toString());
+        }
+
         lessonRepository.save(lessonEntity);
 
         lesson.setId(lessonEntity.getId());
@@ -124,6 +131,10 @@ public class LessonServiceImpl implements LessonService {
             throw new BaseException(Error.NOT_FOUND_LESSON, String.valueOf(lesson.getId()));
         }
         LessonEntity lessonEntity = lessonMapper.dtoToEntity(lesson);
+        // Check if the chapter exists
+        if(chapterRepository.findById(lesson.getChapterId()).isEmpty()){
+            throw new BaseException(Error.NOT_FOUND_CHAPTER, lesson.getChapterId().toString());
+        }
 
         lessonRepository.save(lessonEntity);
 
