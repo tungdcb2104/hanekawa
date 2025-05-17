@@ -1,6 +1,9 @@
 package learneverything.learning_service.domain.services.study_strategies;
 
+import learneverything.learning_service.application.exceptions.BaseException;
+import learneverything.learning_service.application.exceptions.Error;
 import learneverything.learning_service.domain.enums.LearningType;
+import learneverything.learning_service.domain.services.study_strategies.question_strategy.QuestionStrategy;
 import learneverything.learning_service.domain.services.study_strategies.vocabulary_strategy.VocabularyReviewStrategy;
 import learneverything.learning_service.domain.services.study_strategies.vocabulary_strategy.VocabularySpacedRepetitionStrategy;
 import lombok.Getter;
@@ -12,7 +15,7 @@ import java.util.List;
 public enum StrategyType {
     VOCABULARY_SPACED_REPETITION(1,LearningType.VOCABULARY, VocabularySpacedRepetitionStrategy.class),
     VOCABULARY_REVIEW(2,LearningType.VOCABULARY, VocabularyReviewStrategy.class),
-
+    QUESTION(3,LearningType.QUESTION, QuestionStrategy.class)
     ;
 
     private final Integer id;
@@ -31,7 +34,7 @@ public enum StrategyType {
                 return type;
             }
         }
-        return null;
+        throw new BaseException(Error.NOT_FOUND_STRATEGY);
     }
 
     public static List<StrategyType> findByLearningType(LearningType learningType){
@@ -51,6 +54,6 @@ public enum StrategyType {
             }
         }
 
-        return null;
+        throw new BaseException(Error.NOT_FOUND_STRATEGY);
     }
 }

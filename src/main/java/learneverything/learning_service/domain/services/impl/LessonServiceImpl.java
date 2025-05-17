@@ -14,25 +14,28 @@ import learneverything.learning_service.domain.dtos.lesson.LessonDTO;
 import learneverything.learning_service.domain.mappers.LessonMapper;
 import learneverything.learning_service.domain.services.LessonService;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
+@Setter
 public class LessonServiceImpl implements LessonService {
+    @Autowired
     private LessonRepository lessonRepository;
+    @Autowired
     private LessonMapper lessonMapper;
+    @Autowired
     private LearningMapper learningMapper;
+    @Autowired
     private ChapterRepository chapterRepository;
 
     private final Map<Class, ICRUDLearningService> learningRepositoryMap = new HashMap<>();
 
     @Autowired
-    public LessonServiceImpl(List<ICRUDLearningService> repositories, LessonRepository lessonRepository, LessonMapper lessonMapper,LearningMapper learningMapper){
-        this.lessonRepository = lessonRepository;
-        this.lessonMapper = lessonMapper;
-        this.learningMapper = learningMapper;
+    public LessonServiceImpl(List<ICRUDLearningService> repositories){
         for (ICRUDLearningService repository : repositories){
             learningRepositoryMap.put(repository.getClass(),repository);
         }

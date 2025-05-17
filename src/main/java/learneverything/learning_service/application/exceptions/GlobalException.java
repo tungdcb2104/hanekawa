@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalException {
     @ExceptionHandler(value = BaseException.class)
     ResponseEntity<String> handleBaseException(BaseException exception){
-        log.error("Exception : ",String.format(exception.getError().getMessage(),exception.getErrorTemplate()));
+        log.error("Exception : ",String.format(exception.getError().getMessage(), (Object) exception.getErrorTemplate()));
         return ResponseEntity.status(exception.getError().getStatusCode())
-                .body(String.format(exception.getError().getMessage(),exception.getErrorTemplate()));
+                .body(String.format(exception.getError().getMessage(), (Object) exception.getErrorTemplate()));
     }
 }

@@ -1,10 +1,8 @@
 package learneverything.learning_service.application.controllers;
 
-import learneverything.learning_service.database.entities.learning_entities.vocabulary.VocabularyEntity;
 import learneverything.learning_service.database.repositories.VocabularyRepository;
 import learneverything.learning_service.domain.dtos.lesson.LessonDTO;
 import learneverything.learning_service.domain.services.LessonService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,12 +13,6 @@ import org.springframework.web.bind.annotation.*;
 public class LessonController {
     private final VocabularyRepository learningRepository;
     private final LessonService lessonService;
-
-    @PostMapping("/vocab")
-    public String createVocab(@RequestBody VocabularyEntity vocabularyEntity){
-        learningRepository.save(vocabularyEntity);
-        return "SUCCESS!";
-    }
 
     @PostMapping("")
     public ResponseEntity<LessonDTO> create(@RequestBody LessonDTO lessonDTO){

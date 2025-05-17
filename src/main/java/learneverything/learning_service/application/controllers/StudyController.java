@@ -1,5 +1,6 @@
 package learneverything.learning_service.application.controllers;
 
+import learneverything.learning_service.domain.dtos.learning_result.LessonResultDTO;
 import learneverything.learning_service.domain.services.StudyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class StudyController {
 
     @PostMapping
     public ResponseEntity<Object> evaluate(
-            @RequestBody Object assessment
+            @RequestBody LessonResultDTO assessment
     ){
         String userId = "test_user_1";
 

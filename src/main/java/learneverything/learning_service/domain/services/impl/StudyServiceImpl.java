@@ -4,6 +4,7 @@ import learneverything.learning_service.application.exceptions.BaseException;
 import learneverything.learning_service.application.exceptions.Error;
 import learneverything.learning_service.database.entities.LessonEntity;
 import learneverything.learning_service.database.repositories.LessonRepository;
+import learneverything.learning_service.domain.dtos.learning_result.LessonResultDTO;
 import learneverything.learning_service.domain.enums.LearningType;
 import learneverything.learning_service.domain.services.StudyService;
 import learneverything.learning_service.domain.services.study_strategies.IStudyStrategy;
@@ -33,30 +34,26 @@ public class StudyServiceImpl implements StudyService {
 
     @Override
     public List<Object> study(Integer id,String userId, Integer strategyId) {
-        LessonEntity lessonEntity = lessonRepository.findById(id)
-                .orElseThrow(()->new BaseException(Error.NOT_FOUND_LESSON,String.valueOf(id)));
+        IStudyStrategy strategy = getStudyStrategyById(strategyId);
+        return strategy.learn(id,userId);
+    }
 
-        LearningType learningType = LearningType.getLearningTypeByName(lessonEntity.getLearningType());
+    @Override
+    public Object evaluate(LessonResultDTO result, String userId) {
+        IStudyStrategy strategy = getStudyStrategyById(result.getStrategyId());
+        return strategy.evaluate(result,userId);
+    }
+
+    private IStudyStrategy getStudyStrategyById(Integer strategyId){
         StrategyType strategyType = StrategyType.findById(strategyId);
         if (strategyType == null){
             throw new BaseException(Error.NOT_FOUND_STRATEGY);
         }
 
-        if (!strategyType.getLearningType().equals(learningType)){
-            throw new BaseException(Error.INVALID_STRATEGY,String.valueOf(strategyId),String.valueOf(id));
-        }
-
-        IStudyStrategy strategy = studyStrategyMap.get(strategyType.getStrategy());
-
-        if (Objects.isNull(strategy)){
+        if (studyStrategyMap.containsKey(strategyType.getStrategy())){
+            return studyStrategyMap.get(strategyType.getStrategy());
+        }else {
             throw new BaseException(Error.UNAVAILABLE_STRATEGY);
         }
-
-        return strategy.learn(id,userId);
-    }
-
-    @Override
-    public Object evaluate(Object result, String userId) {
-        return null;
     }
 }
