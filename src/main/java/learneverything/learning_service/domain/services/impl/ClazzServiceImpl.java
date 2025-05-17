@@ -43,7 +43,7 @@ public class ClazzServiceImpl implements ClazzService {
     @Override
     public Object create(CreateClazzRequestDTO createClazzRequest) {
         ClazzEntity clazz = clazzMapper.createDTOToEntity(createClazzRequest);
-        clazz.setAuthorId(0);
+        clazz.setAuthorId("test");
         return clazzRepository.save(clazz);
     }
 

@@ -8,7 +8,7 @@ import java.util.List;
 @Service
 public class QuestionStrategy implements IStudyStrategy {
     @Override
-    public List<Object> learn(Integer lessonId) {
+    public List<Object> learn(Integer lessonId,String userId) {
 
 
         return List.of();

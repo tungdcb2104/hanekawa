@@ -14,15 +14,15 @@ import org.springframework.web.bind.annotation.*;
 public class ChapterController {
     private final ChapterService chapterService;
 
-     @PostMapping("")
-     public ResponseEntity<Object> createChapter(@RequestBody CreateChapterRequestDTO createChapterRequest){
-         return ResponseEntity.ok(chapterService.create(createChapterRequest));
-     }
+    @PostMapping("")
+    public ResponseEntity<Object> createChapter(@RequestBody CreateChapterRequestDTO createChapterRequest) {
+        return ResponseEntity.ok(chapterService.create(createChapterRequest));
+    }
 
-     @GetMapping("/{id}")
-     public ResponseEntity<ChapterDTO> get(@PathVariable("id") Integer id){
-         return ResponseEntity.ok(chapterService.get(id));
-     }
+    @GetMapping("/{id}")
+    public ResponseEntity<ChapterDTO> get(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(chapterService.get(id));
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") Integer id) {

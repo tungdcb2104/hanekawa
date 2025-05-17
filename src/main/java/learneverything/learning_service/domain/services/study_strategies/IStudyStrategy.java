@@ -6,5 +6,5 @@ import java.util.List;
 
 @Service
 public interface IStudyStrategy {
-    List<Object> learn(Integer lessonId);
+    List<Object> learn(Integer lessonId,String userId);
 }

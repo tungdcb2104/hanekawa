@@ -16,11 +16,6 @@ import org.springframework.web.bind.annotation.*;
 public class ClazzController {
     private final ClazzService clazzService;
 
-
-    public ResponseEntity<String> test(){
-        throw new BaseException(Error.NOT_FOUND_LESSON,"1");
-    }
-
     @PostMapping("")
     public ResponseEntity<Object> createClazz(
             @RequestBody CreateClazzRequestDTO createClazzRequest

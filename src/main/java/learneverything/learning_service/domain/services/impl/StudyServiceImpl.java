@@ -32,31 +32,31 @@ public class StudyServiceImpl implements StudyService {
     }
 
     @Override
-    public List<Object> study(Integer id, Class strategyClass) {
+    public List<Object> study(Integer id,String userId, Integer strategyId) {
         LessonEntity lessonEntity = lessonRepository.findById(id)
                 .orElseThrow(()->new BaseException(Error.NOT_FOUND_LESSON,String.valueOf(id)));
 
         LearningType learningType = LearningType.getLearningTypeByName(lessonEntity.getLearningType());
-        StrategyType strategyType = StrategyType.findByStrategy(strategyClass);
+        StrategyType strategyType = StrategyType.findById(strategyId);
         if (strategyType == null){
             throw new BaseException(Error.NOT_FOUND_STRATEGY);
         }
 
         if (!strategyType.getLearningType().equals(learningType)){
-            throw new BaseException(Error.INVALID_STRATEGY,strategyClass.getName(),String.valueOf(id));
+            throw new BaseException(Error.INVALID_STRATEGY,String.valueOf(strategyId),String.valueOf(id));
         }
 
-        IStudyStrategy strategy = studyStrategyMap.get(strategyClass);
+        IStudyStrategy strategy = studyStrategyMap.get(strategyType.getStrategy());
 
         if (Objects.isNull(strategy)){
             throw new BaseException(Error.UNAVAILABLE_STRATEGY);
         }
 
-        return strategy.learn(id);
+        return strategy.learn(id,userId);
     }
 
     @Override
-    public Object evaluate(Object result) {
+    public Object evaluate(Object result, String userId) {
         return null;
     }
 }

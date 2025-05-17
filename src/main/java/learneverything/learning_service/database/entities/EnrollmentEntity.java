@@ -10,15 +10,15 @@ import lombok.experimental.FieldDefaults;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class EnrollmentEntity {
+public class EnrollmentEntity extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
     @Column(name = "user_id")
-    private Long userId;
-    @Column(name = "lesson_id")
-    private Long lessonId;
+    private String userId;
+    @Column(name = "clazz_id")
+    private Long clazzId;
     @Column(name = "status")
     private Integer status;
 }

@@ -16,7 +16,7 @@ public class LearningProgressEntity extends BaseEntity{
     @Column(name = "id")
     private Long id;
     @Column(name = "user_id")
-    private Long userId;
+    private String userId;
     @Column(name = "learning_id")
     private Long learningId;
     @Column(name = "progress")
