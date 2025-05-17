@@ -17,7 +17,7 @@ public class VocabularyMapper implements ILearningMapper {
     }
 
     @Override
-    public LearningEntity dtoToEntity(LearningDTO dto) throws IOException {
+    public LearningEntity dtoToEntity(LearningDTO dto) {
         VocabularyDTO vocabularyDTO = (VocabularyDTO) dto;
 
         VocabularyEntity vocabulary = new VocabularyEntity();

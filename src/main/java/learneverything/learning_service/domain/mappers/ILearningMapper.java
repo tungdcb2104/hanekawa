@@ -7,5 +7,5 @@ import java.io.IOException;
 
 public interface ILearningMapper {
     LearningDTO entityToDto(LearningEntity entity);
-    LearningEntity dtoToEntity(LearningDTO dto) throws IOException;
+    LearningEntity dtoToEntity(LearningDTO dto);
 }

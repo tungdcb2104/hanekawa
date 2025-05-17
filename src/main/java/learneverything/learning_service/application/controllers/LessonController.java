@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/lesson")
+@RequestMapping("/v1/lesson")
 @RequiredArgsConstructor
 public class LessonController {
     private final VocabularyRepository learningRepository;

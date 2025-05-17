@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.Objects;
 
 public class CommonUtils {
     private static final long maxFileSize = 10485760; // TODO: should use value in variable of properties file
@@ -31,5 +33,17 @@ public class CommonUtils {
         Files.write(filePath, bytes);
 
         return filePath.toString();
+    }
+
+    public static Boolean isNullOrEmpty(String s){
+        return Objects.isNull(s) || s.isEmpty();
+    }
+
+    public static Boolean isNullOrEmpty(List list){
+        return Objects.isNull(list) || list.isEmpty();
+    }
+
+    public static Boolean isNullOrEmpty(Object object){
+        return Objects.isNull(object);
     }
 }

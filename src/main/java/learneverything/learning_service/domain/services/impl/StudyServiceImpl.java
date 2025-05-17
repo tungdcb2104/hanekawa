@@ -54,4 +54,9 @@ public class StudyServiceImpl implements StudyService {
 
         return strategy.learn(id);
     }
+
+    @Override
+    public Object evaluate(Object result) {
+        return null;
+    }
 }
