@@ -47,6 +47,7 @@ CREATE TABLE vocabulary(
 CREATE TABLE question(
 	question varchar(500),
 	question_type varchar(50),
+	description varchar(500),
 	answer JSONB
 ) INHERITS (learning);
 
@@ -75,7 +76,7 @@ CREATE TABLE learning_progress(
 	progress smallint,
 	created_date timestamp,
 	updated_date timestamp
-)
+);
 
 
 
