@@ -12,15 +12,15 @@ public class FlashCardMapper implements ILearningMapper {
     public LearningDTO entityToDto(LearningEntity entity) {
         FlashCardEntity flashcardEntity = (FlashCardEntity) entity;
 
-//        FlashCardDTO flashCardDTO = new FlashCardDTO();
-//        flashCardDTO.setFrontContent(flashcardEntity.getFrontContent());
-//        flashCardDTO.setBackContent(flashcardEntity.getBackContent());
+        FlashCardDTO flashCardDTO = new FlashCardDTO();
+        flashCardDTO.setFrontContent(flashcardEntity.getFrontContent());
+        flashCardDTO.setBackContent(flashcardEntity.getBackContent());
 //        flashCardDTO.setFrontImage(flashcardEntity.getFrontImage());
 //        flashCardDTO.setBackImage(flashcardEntity.getBackImage());
 //        flashCardDTO.setFrontExtra(flashcardEntity.getFrontExtra());
 //        flashCardDTO.setBackExtra(flashcardEntity.getBackExtra());
 
-        return null;
+        return flashCardDTO;
     }
 
     @Override
