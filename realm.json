@@ -1,0 +1,51 @@
+{
+  "id": "learning_everything_realm",
+  "realm": "learning_everything",
+  "enabled": true,
+  "registrationAllowed" : true,
+  "registrationEmailAsUsername" : true,
+  "clients": [
+    {
+      "clientId": "learning_everything_client",
+      "secret": "your-client-secret",
+      "enabled": true,
+      "publicClient": false,
+      "directAccessGrantsEnabled": true,
+      "standardFlowEnabled": true,
+      "serviceAccountsEnabled": true,
+      "authorizationServicesEnabled": true,
+      "redirectUris": ["http://localhost:8080/*"],
+      "webOrigins": ["+"]
+    }
+  ],
+  "roles": {
+    "client":{
+      "learning_everything_client": [
+        {
+          "name": "admin"
+        },
+        {
+          "name": "user"
+        }
+      ]
+    }
+  },
+  "users": [
+    {
+      "username": "usertest",
+      "enabled": true,
+      "email" : "usertest@mail.com",
+      "firstName": "User",
+      "lastName": "Test",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "123456"
+        }
+      ],
+      "clientRoles": {
+        "learning_everything_client": ["user","admin"]
+      }
+    }
+  ]
+}

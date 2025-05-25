@@ -10,6 +10,14 @@ services:
     volumes:
       - 'pgsql-data:/var/lib/postgresql/data'
       - './learning_service.sql:/docker-entrypoint-initdb.d/learning_service.sql'
+
+  auth:
+    build:
+      context: .
+      dockerfile: keycloak-dockerfile
+    ports:
+      - "8080:8080"
+
 volumes:
   pgsql-data:
     driver: local
