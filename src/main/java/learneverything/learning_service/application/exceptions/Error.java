@@ -14,7 +14,7 @@ public enum Error {
 
     UNAVAILABLE_STRATEGY(400,"Strategy is unavailable now"),
 
-    INVALID_LEARNING_TYPE(400,"Invalid learning type"),
+    INVALID_LEARNING_TYPE(400,"%s is invalid learning type"),
     INVALID_FILE(422,"Invalid file name"),
     INVALID_LESSON(400,"Invalid lesson"),
     INVALID_STRATEGY(400,"Strategy is invalid for lesson %s"),

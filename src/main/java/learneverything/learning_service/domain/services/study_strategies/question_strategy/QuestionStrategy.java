@@ -65,7 +65,7 @@ public class QuestionStrategy implements IStudyStrategy {
         List<LearningProgressEntity> learningProgressEntities = new ArrayList<>();
 
         for (LearningResultDTO learningResult : result.getLearningResults()){
-            if (learningResult.getClass()!=QuestionResultDTO.class)throw new BaseException(Error.INVALID_LEARNING_TYPE);
+            if (learningResult.getClass()!=QuestionResultDTO.class)throw new BaseException(Error.INVALID_LEARNING_TYPE,learningType);
             QuestionResultDTO questionResult = (QuestionResultDTO)learningResult;
 
             LearningProgressEntity learningProgressEntity;

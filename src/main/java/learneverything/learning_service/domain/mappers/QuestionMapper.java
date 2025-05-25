@@ -77,7 +77,7 @@ public class QuestionMapper implements ILearningMapper {
                 answer.put("answer",fillQuestionDTO.getAnswer());
                 break;
             default:
-                throw new BaseException(Error.BAD_REQUEST);
+                throw new BaseException(Error.INVALID_LEARNING_TYPE,questionDTO.getQuestionType());
         }
         question.setAnswer(answer);
         return question;
