@@ -14,6 +14,8 @@ import learneverything.learning_service.domain.mappers.ChapterMapper;
 import learneverything.learning_service.domain.mappers.ClazzMapper;
 import learneverything.learning_service.domain.services.ClazzService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,8 +44,10 @@ public class ClazzServiceImpl implements ClazzService {
 
     @Override
     public Object create(CreateClazzRequestDTO createClazzRequest) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
         ClazzEntity clazz = clazzMapper.createDTOToEntity(createClazzRequest);
-        clazz.setAuthorId("test");
+        clazz.setAuthorId(authentication.getName());
         return clazzRepository.save(clazz);
     }
 
@@ -55,7 +59,11 @@ public class ClazzServiceImpl implements ClazzService {
 
     @Override
     public Object update(Integer id,UpdateClazzRequestDTO updateClazzRequest) {
-        ClazzEntity clazz = clazzMapper.updateDTOToEntity(updateClazzRequest);
-        return null;
+        ClazzEntity clazzEntity = clazzRepository.findById(id)
+                .orElseThrow(()->new BaseException(Error.NOT_FOUND_LESSON,id.toString()));
+
+        clazzMapper.updateDtoToEntity(updateClazzRequest,clazzEntity);
+
+        return clazzRepository.save(clazzEntity);
     }
 }

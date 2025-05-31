@@ -6,6 +6,7 @@ import lombok.Getter;
 public enum Error {
     BAD_REQUEST(400,"Bad request"),
 
+    NOT_FOUND_CLAZZ(404,"Not found clazz %s"),
     NOT_FOUND_LESSON(404,"Not found lesson %s"),
     NOT_FOUND_CHAPTER(404,"Not found chapter %s"),
     NOT_FOUND_STRATEGY(400,"Not found strategy"),

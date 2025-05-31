@@ -4,6 +4,8 @@ import learneverything.learning_service.domain.dtos.learning_result.LessonResult
 import learneverything.learning_service.domain.services.StudyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,8 +19,8 @@ public class StudyController {
             @RequestParam("lid")Integer lessonId,
             @RequestParam("sid")Integer strategyId
     ){
-        String userId = "test_user_1";
-
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userId = authentication.getName();
         return ResponseEntity.ok(studyService.study(lessonId,userId,strategyId));
     }
 
@@ -26,8 +28,8 @@ public class StudyController {
     public ResponseEntity<Object> evaluate(
             @RequestBody LessonResultDTO assessment
     ){
-        String userId = "test_user_1";
-
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userId = authentication.getName();
         return ResponseEntity.ok(studyService.evaluate(assessment,userId));
     }
 }

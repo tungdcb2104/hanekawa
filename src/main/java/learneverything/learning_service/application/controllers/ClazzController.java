@@ -17,7 +17,7 @@ public class ClazzController {
     private final ClazzService clazzService;
 
     @PostMapping("")
-    public ResponseEntity<Object> createClazz(
+    public ResponseEntity<Object> create(
             @RequestBody CreateClazzRequestDTO createClazzRequest
     ){
         return ResponseEntity.ok(clazzService.create(createClazzRequest));

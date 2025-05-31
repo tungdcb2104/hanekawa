@@ -5,6 +5,7 @@ import learneverything.learning_service.domain.dtos.clazz.ClazzDTO;
 import learneverything.learning_service.domain.dtos.clazz.CreateClazzRequestDTO;
 import learneverything.learning_service.domain.dtos.clazz.UpdateClazzRequestDTO;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 import org.springframework.stereotype.Component;
 
 @Mapper(componentModel = "spring")
@@ -15,5 +16,7 @@ public interface ClazzMapper {
 
     ClazzEntity createDTOToEntity(CreateClazzRequestDTO createClazzRequest);
 
-    ClazzEntity updateDTOToEntity(UpdateClazzRequestDTO updateClazzRequest);
+    void dtoToEntity(ClazzDTO clazzDTO,@MappingTarget ClazzEntity clazzEntity);
+    void entityToDto(ClazzEntity clazzEntity,@MappingTarget ClazzDTO clazzDTO);
+    void updateDtoToEntity(UpdateClazzRequestDTO updateClazzRequestDTO,@MappingTarget ClazzEntity clazz);
 }
