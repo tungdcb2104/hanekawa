@@ -8,6 +8,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface ClazzMapper {
     ClazzDTO toDTO(ClazzEntity clazzEntity);
@@ -19,4 +21,5 @@ public interface ClazzMapper {
     void dtoToEntity(ClazzDTO clazzDTO,@MappingTarget ClazzEntity clazzEntity);
     void entityToDto(ClazzEntity clazzEntity,@MappingTarget ClazzDTO clazzDTO);
     void updateDtoToEntity(UpdateClazzRequestDTO updateClazzRequestDTO,@MappingTarget ClazzEntity clazz);
+    List<ClazzDTO> toDTOs(List<ClazzEntity> clazzEntities);
 }

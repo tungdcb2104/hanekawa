@@ -15,6 +15,8 @@ import learneverything.learning_service.domain.mappers.LessonMapper;
 import learneverything.learning_service.domain.services.LessonService;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,7 @@ import java.util.*;
 @Service
 @Setter
 public class LessonServiceImpl implements LessonService {
+    private static final Logger log = LoggerFactory.getLogger(LessonServiceImpl.class);
     @Autowired
     private LessonRepository lessonRepository;
     @Autowired
@@ -36,6 +39,7 @@ public class LessonServiceImpl implements LessonService {
 
     @Autowired
     public LessonServiceImpl(List<ICRUDLearningService> repositories){
+        log.info("[LessonServiceImpl] : Init bean");
         for (ICRUDLearningService repository : repositories){
             learningRepositoryMap.put(repository.getClass(),repository);
         }

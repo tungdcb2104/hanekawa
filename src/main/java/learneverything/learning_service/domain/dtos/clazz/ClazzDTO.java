@@ -11,5 +11,6 @@ public class ClazzDTO {
     String title;
     String description;
     String image;
+    List<String> categories;
     List<ChapterDTO> listChapter;
 }

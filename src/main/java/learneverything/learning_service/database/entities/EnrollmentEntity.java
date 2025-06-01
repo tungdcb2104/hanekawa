@@ -20,5 +20,5 @@ public class EnrollmentEntity extends BaseEntity{
     @Column(name = "clazz_id")
     private Long clazzId;
     @Column(name = "status")
-    private Integer status;
+    private Integer status; //0 is not registered, 1 is enrolled
 }
