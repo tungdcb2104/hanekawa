@@ -7,6 +7,8 @@ import learneverything.learning_service.domain.dtos.clazz.CreateClazzRequestDTO;
 import learneverything.learning_service.domain.dtos.clazz.SearchClazzDTO;
 import learneverything.learning_service.domain.dtos.clazz.UpdateClazzRequestDTO;
 import learneverything.learning_service.domain.services.ClazzService;
+import learneverything.learning_service.domain.services.EnrollmentService;
+import learneverything.learning_service.utils.CommonUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ClazzController {
     private final ClazzService clazzService;
+    private final EnrollmentService enrollmentService;
 
     @PostMapping("")
     public ResponseEntity<Object> create(
@@ -49,15 +52,31 @@ public class ClazzController {
     }
 
     @GetMapping("/learning-classes")
-    public ResponseEntity<Object> getLearningClasses(
+    public ResponseEntity<Object> getLearningClasses(){
+        return ResponseEntity.ok(clazzService.getLearningClasses());
+    }
+
+    @GetMapping("")
+    public ResponseEntity<Object> searchClasses(
             @RequestParam(value = "name",required = false) String name,
             @RequestParam(value = "categories",required = false) String categories
     ){
-        List<String> listCategory = List.of(categories.split(","));
+        List<String> listCategory = null;
+        if (!CommonUtils.isNullOrEmpty(categories)){
+            listCategory = List.of(categories.split(","));
+        }
         SearchClazzDTO searchClazzDTO = SearchClazzDTO.builder()
                 .name(name)
                 .categories(listCategory)
                 .build();
-        return ResponseEntity.ok(clazzService.getLearningClasses(searchClazzDTO));
+        return ResponseEntity.ok(clazzService.searchClasses(searchClazzDTO));
+    }
+
+    @PostMapping("/{id}/enroll")
+    public ResponseEntity<Object> enrollClazz(
+            @PathVariable("id") Integer clazzId
+    ){
+//        return ResponseEntity.ok(enrollmentService.)
+        return null;
     }
 }

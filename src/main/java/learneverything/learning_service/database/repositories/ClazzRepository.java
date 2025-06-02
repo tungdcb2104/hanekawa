@@ -14,8 +14,8 @@ import java.util.List;
 public interface ClazzRepository extends JpaRepository<ClazzEntity, Integer>, JpaSpecificationExecutor<ClazzEntity> {
 
     @Query(value = """
-            SELECT * FROM clazz c
-            JOIN enrollment e IN e.clazz_id = c.id
+            SELECT c.* FROM clazz c
+            JOIN enrollment e ON e.clazz_id = c.id
             WHERE e.user_id = :userId
             AND status = 1
             """,nativeQuery = true)

@@ -71,19 +71,21 @@ public class ClazzServiceImpl implements ClazzService {
     }
 
     @Override
-    public List<ClazzDTO> getLearningClasses(SearchClazzDTO searchClazzDTO) {
+    public List<ClazzDTO> getLearningClasses() {
         String userId = CommonUtils.getUserId();
         List<ClazzEntity> allLearningClasses = clazzRepository.getLearningClassesByUserId(userId);
-        List<ClazzEntity> learningClasses = clazzRepository
-                .findAll(searchLearningClasses(searchClazzDTO,allLearningClasses.stream().map(ClazzEntity::getId).toList()));
-
-        return clazzMapper.toDTOs(learningClasses);
+        return clazzMapper.toDTOs(allLearningClasses);
     }
 
-    private Specification<ClazzEntity> searchLearningClasses(SearchClazzDTO searchClazzDTO,List<Integer> currentLearningClasses){
+    @Override
+    public List<ClazzDTO> searchClasses(SearchClazzDTO searchClazzDTO) {
+        List<ClazzEntity> clazzEntities = clazzRepository.findAll(searchLearningClasses(searchClazzDTO));
+        return clazzMapper.toDTOs(clazzEntities);
+    }
+
+    private Specification<ClazzEntity> searchLearningClasses(SearchClazzDTO searchClazzDTO){
         return ((root, query, criteriaBuilder) -> {
            List<Predicate> predicates = new ArrayList<>();
-           predicates.add(criteriaBuilder.in(root.get("id").in(currentLearningClasses)));
            if (searchClazzDTO.getName() != null){
                predicates.add(criteriaBuilder.like(root.get("name"),searchClazzDTO.getName()));
            }

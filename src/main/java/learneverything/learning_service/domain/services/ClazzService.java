@@ -14,5 +14,6 @@ public interface ClazzService {
     Object create(CreateClazzRequestDTO createClazzRequest);
     String delete(Integer id);
     Object update(Integer id,UpdateClazzRequestDTO updateClazzRequest);
-    List<ClazzDTO> getLearningClasses(SearchClazzDTO searchClazzDTO);
+    List<ClazzDTO> getLearningClasses();
+    List<ClazzDTO> searchClasses(SearchClazzDTO searchClazzDTO);
 }

@@ -46,9 +46,6 @@ public class StudyServiceImpl implements StudyService {
 
     private IStudyStrategy getStudyStrategyById(Integer strategyId){
         StrategyType strategyType = StrategyType.findById(strategyId);
-        if (strategyType == null){
-            throw new BaseException(Error.NOT_FOUND_STRATEGY);
-        }
 
         if (studyStrategyMap.containsKey(strategyType.getStrategy())){
             return studyStrategyMap.get(strategyType.getStrategy());

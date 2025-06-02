@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/v1/lesson")
 @RequiredArgsConstructor
 public class LessonController {
-    private final VocabularyRepository learningRepository;
     private final LessonService lessonService;
 
     @PostMapping("")
