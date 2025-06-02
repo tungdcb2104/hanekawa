@@ -72,11 +72,17 @@ public class ClazzController {
         return ResponseEntity.ok(clazzService.searchClasses(searchClazzDTO));
     }
 
-    @PostMapping("/{id}/enroll")
+    @PostMapping("/{id}/register")
     public ResponseEntity<Object> enrollClazz(
             @PathVariable("id") Integer clazzId
     ){
-//        return ResponseEntity.ok(enrollmentService.)
-        return null;
+        return ResponseEntity.ok(enrollmentService.register(clazzId));
+    }
+
+    @PostMapping("/{id}/unregister")
+    public ResponseEntity<Object> unregisterClazz(
+            @PathVariable("id") Integer clazzId
+    ){
+        return ResponseEntity.ok(enrollmentService.unregister(clazzId));
     }
 }
