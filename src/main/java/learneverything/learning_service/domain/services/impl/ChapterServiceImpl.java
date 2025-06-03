@@ -37,7 +37,7 @@ public class ChapterServiceImpl implements ChapterService {
         // get the lessson by chapter
         List<LessonEntity> lessons = lessonRepository.getLessonByChapterId(id);
         // map each the lesson to lessonDTO
-        if (lessons.size() > 0){
+        if (!lessons.isEmpty()){
             List<LessonDTO> lessonDTOS = lessons.stream().map(lessonMapper::entityToDto).toList();
             chapterDto.setListLesson(lessonDTOS);
         }

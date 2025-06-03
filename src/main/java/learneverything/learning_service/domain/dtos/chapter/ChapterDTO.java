@@ -12,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ChapterDTO {
     Integer id;
+    Integer clazzId;
     String title;
     String description;
     String image;

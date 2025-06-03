@@ -1,5 +1,6 @@
 package learneverything.learning_service.application.controllers;
 
+import jakarta.validation.Valid;
 import learneverything.learning_service.database.repositories.VocabularyRepository;
 import learneverything.learning_service.domain.dtos.lesson.LessonDTO;
 import learneverything.learning_service.domain.services.LessonService;
@@ -14,7 +15,7 @@ public class LessonController {
     private final LessonService lessonService;
 
     @PostMapping("")
-    public ResponseEntity<LessonDTO> create(@RequestBody LessonDTO lessonDTO){
+    public ResponseEntity<LessonDTO> create(@RequestBody @Valid LessonDTO lessonDTO){
         return ResponseEntity.ok(lessonService.create(lessonDTO));
     }
 
@@ -24,7 +25,7 @@ public class LessonController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<LessonDTO> update(@PathVariable Integer id, @RequestBody LessonDTO lessonDTO){
+    public ResponseEntity<LessonDTO> update(@PathVariable Integer id, @RequestBody @Valid LessonDTO lessonDTO){
         lessonDTO.setId(id);
 
         return ResponseEntity.ok(lessonService.update(lessonDTO));

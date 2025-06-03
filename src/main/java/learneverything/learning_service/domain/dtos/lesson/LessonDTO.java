@@ -1,5 +1,6 @@
 package learneverything.learning_service.domain.dtos.lesson;
 
+import jakarta.validation.constraints.NotNull;
 import learneverything.learning_service.domain.dtos.learning.LearningDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,9 +15,11 @@ import java.util.List;
 @Builder
 public class LessonDTO {
     Integer id;
+    @NotNull
     String title;
     Integer chapterId;
     String description;
+    @NotNull
     String learningType;
     List<LearningDTO> listLearning;
 }

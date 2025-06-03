@@ -13,6 +13,7 @@ import learneverything.learning_service.domain.dtos.learning.LearningDTO;
 import learneverything.learning_service.domain.dtos.lesson.LessonDTO;
 import learneverything.learning_service.domain.mappers.LessonMapper;
 import learneverything.learning_service.domain.services.LessonService;
+import learneverything.learning_service.utils.CommonUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.slf4j.Logger;
@@ -93,6 +94,9 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     public LessonDTO create(LessonDTO lesson) {
+        if (CommonUtils.isNullOrEmpty(lesson.getLearningType())){
+            throw new BaseException(Error.INVALID_LESSON);
+        }
         LessonEntity lessonEntity = lessonMapper.dtoToEntity(lesson);
         // Check if the chapter exists
         if(chapterRepository.findById(lesson.getChapterId()).isEmpty()){

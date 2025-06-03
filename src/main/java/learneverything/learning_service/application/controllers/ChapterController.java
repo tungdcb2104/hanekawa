@@ -1,5 +1,6 @@
 package learneverything.learning_service.application.controllers;
 
+import jakarta.validation.Valid;
 import learneverything.learning_service.domain.dtos.chapter.ChapterDTO;
 import learneverything.learning_service.domain.dtos.chapter.CreateChapterRequestDTO;
 import learneverything.learning_service.domain.dtos.chapter.UpdateChapterRequestDTO;
@@ -15,7 +16,7 @@ public class ChapterController {
     private final ChapterService chapterService;
 
     @PostMapping("")
-    public ResponseEntity<Object> createChapter(@RequestBody CreateChapterRequestDTO createChapterRequest) {
+    public ResponseEntity<Object> createChapter(@RequestBody @Valid CreateChapterRequestDTO createChapterRequest) {
         return ResponseEntity.ok(chapterService.create(createChapterRequest));
     }
 
@@ -30,7 +31,7 @@ public class ChapterController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> update(@PathVariable("id") Integer id, @RequestBody UpdateChapterRequestDTO updateChapterRequest) {
+    public ResponseEntity<Object> update(@PathVariable("id") Integer id, @RequestBody @Valid UpdateChapterRequestDTO updateChapterRequest) {
         return ResponseEntity.ok(chapterService.update(id, updateChapterRequest));
     }
 }

@@ -1,5 +1,6 @@
 package learneverything.learning_service.application.controllers;
 
+import jakarta.validation.Valid;
 import learneverything.learning_service.application.exceptions.BaseException;
 import learneverything.learning_service.application.exceptions.Error;
 import learneverything.learning_service.domain.dtos.clazz.ClazzDTO;
@@ -24,7 +25,7 @@ public class ClazzController {
 
     @PostMapping("")
     public ResponseEntity<Object> create(
-            @RequestBody CreateClazzRequestDTO createClazzRequest
+            @RequestBody @Valid CreateClazzRequestDTO createClazzRequest
     ){
         return ResponseEntity.ok(clazzService.create(createClazzRequest));
     }
@@ -46,7 +47,7 @@ public class ClazzController {
     @PutMapping("/{id}")
     public ResponseEntity<Object> update(
             @PathVariable("id") Integer id,
-            @RequestBody UpdateClazzRequestDTO updateClazzRequest
+            @RequestBody @Valid UpdateClazzRequestDTO updateClazzRequest
     ){
         return ResponseEntity.ok(clazzService.update(id,updateClazzRequest));
     }
