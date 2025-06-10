@@ -15,5 +15,5 @@ public class FlashCardDTO extends LearningDTO {
     String backContent;
     String frontImage;
     String backImage;
-
+    Boolean isLearned;
 }

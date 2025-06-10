@@ -1,8 +1,6 @@
 package learneverything.learning_service.application.controllers;
 
 import jakarta.validation.Valid;
-import learneverything.learning_service.application.exceptions.BaseException;
-import learneverything.learning_service.application.exceptions.Error;
 import learneverything.learning_service.domain.dtos.clazz.ClazzDTO;
 import learneverything.learning_service.domain.dtos.clazz.CreateClazzRequestDTO;
 import learneverything.learning_service.domain.dtos.clazz.SearchClazzDTO;

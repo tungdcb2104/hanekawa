@@ -14,7 +14,9 @@ import lombok.NoArgsConstructor;
         property = "type"
 )
 @JsonSubTypes({
-    @JsonSubTypes.Type(value = QuestionResultDTO.class,name = "question")
+        @JsonSubTypes.Type(value = QuestionResultDTO.class,name = "question"),
+        @JsonSubTypes.Type(value = FlashcardResultDTO.class,name = "flashcard"),
+        @JsonSubTypes.Type(value = FlashcardProgressResultDTO.class,name = "flashcard_progress")
 })
 public abstract class LearningResultDTO {
     Long id;

@@ -13,10 +13,11 @@ public class FlashCardMapper implements ILearningMapper {
         FlashCardEntity flashcardEntity = (FlashCardEntity) entity;
 
         FlashCardDTO flashCardDTO = new FlashCardDTO();
+        flashCardDTO.setId(flashcardEntity.getId());
         flashCardDTO.setFrontContent(flashcardEntity.getFrontContent());
         flashCardDTO.setBackContent(flashcardEntity.getBackContent());
-//        flashCardDTO.setFrontImage(flashcardEntity.getFrontImage());
-//        flashCardDTO.setBackImage(flashcardEntity.getBackImage());
+        flashCardDTO.setFrontImage(flashcardEntity.getFrontImage());
+        flashCardDTO.setBackImage(flashcardEntity.getBackImage());
 //        flashCardDTO.setFrontExtra(flashcardEntity.getFrontExtra());
 //        flashCardDTO.setBackExtra(flashcardEntity.getBackExtra());
 
