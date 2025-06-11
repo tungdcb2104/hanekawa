@@ -4,8 +4,12 @@ import learneverything.learning_service.application.exceptions.BaseException;
 import learneverything.learning_service.application.exceptions.Error;
 import learneverything.learning_service.database.entities.LearningEntity;
 import learneverything.learning_service.database.entities.LessonEntity;
+import learneverything.learning_service.database.entities.LessonRateEntity;
 import learneverything.learning_service.database.repositories.ChapterRepository;
+import learneverything.learning_service.database.repositories.LessonRateRepository;
 import learneverything.learning_service.database.repositories.LessonRepository;
+import learneverything.learning_service.domain.dtos.BaseResponse;
+import learneverything.learning_service.domain.dtos.lesson.VoteLessonDTO;
 import learneverything.learning_service.domain.enums.LearningType;
 import learneverything.learning_service.domain.mappers.LearningMapper;
 import learneverything.learning_service.domain.services.learning_repository.ICRUDLearningService;
@@ -35,6 +39,11 @@ public class LessonServiceImpl implements LessonService {
     private LearningMapper learningMapper;
     @Autowired
     private ChapterRepository chapterRepository;
+
+    @Autowired
+    private LessonRateRepository lessonRateRepo;
+
+
 
     private final Map<Class, ICRUDLearningService> learningRepositoryMap = new HashMap<>();
 
@@ -207,5 +216,25 @@ public class LessonServiceImpl implements LessonService {
         lessonRepository.delete(lessonEntity);
 
         return "Lesson with ID " + id + " deleted successfully.";
+    }
+
+    @Override
+    public Object voteLesson(VoteLessonDTO request) {
+        int userId = Integer.parseInt(CommonUtils.getUserId());
+
+        if (request.getRate() == null) {
+            lessonRateRepo.findFirstByUserIdAndLessonId(userId, request.getLessonId())
+                    .ifPresent(lessonRateRepo::delete);
+            return new BaseResponse<>();
+        }
+
+        LessonRateEntity lessonRate = lessonRateRepo
+                .findFirstByUserIdAndLessonId(userId, request.getLessonId())
+                .orElse(new LessonRateEntity());
+        lessonRate.setRate(request.getRate());
+        lessonRate.setUserId(userId);
+        lessonRate.setLessonId(request.getLessonId());
+        lessonRateRepo.save(lessonRate);
+        return new BaseResponse<>();
     }
 }
