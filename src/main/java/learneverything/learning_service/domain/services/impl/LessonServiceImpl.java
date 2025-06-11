@@ -97,7 +97,9 @@ public class LessonServiceImpl implements LessonService {
                 .toList();
 
         lessonDTO.setListLearning(learningDTOS);
-
+        int userId = Integer.parseInt(CommonUtils.getUserId());
+        LessonRateEntity lessonRate=  lessonRateRepo.findFirstByUserIdAndLessonId(userId, id).orElse(new LessonRateEntity());
+        lessonDTO.setRate(lessonRate.getRate());
         return lessonDTO;
     }
 

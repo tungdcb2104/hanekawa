@@ -93,4 +93,8 @@ public class ClazzController {
     public ResponseEntity<Object> unPinClazz(@PathVariable("id") Integer clazzId){
         return ResponseEntity.ok(clazzService.unPin(clazzId));
     }
+    @GetMapping("/pin-clazz")
+    public ResponseEntity<Object> getPinClazz(){
+        return ResponseEntity.ok(clazzService.getPinClazz());
+    }
 }

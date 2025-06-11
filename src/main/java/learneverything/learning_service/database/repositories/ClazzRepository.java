@@ -20,4 +20,6 @@ public interface ClazzRepository extends JpaRepository<ClazzEntity, Integer>, Jp
             AND status = 1
             """,nativeQuery = true)
     List<ClazzEntity> getLearningClassesByUserId(@Param("userId") String userId);
+
+    List<ClazzEntity> findByIdIn(List<Integer> clazzIds);
 }

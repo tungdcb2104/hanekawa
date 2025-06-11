@@ -22,4 +22,5 @@ public class LessonDTO {
     @NotNull
     String learningType;
     List<LearningDTO> listLearning;
+    int rate;
 }
