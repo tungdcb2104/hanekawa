@@ -1,5 +1,6 @@
 package learneverything.learning_service.domain.services;
 
+import learneverything.learning_service.domain.dtos.BaseResponse;
 import learneverything.learning_service.domain.dtos.clazz.ClazzDTO;
 import learneverything.learning_service.domain.dtos.clazz.CreateClazzRequestDTO;
 import learneverything.learning_service.domain.dtos.clazz.SearchClazzDTO;
@@ -16,4 +17,7 @@ public interface ClazzService {
     Object update(Integer id,UpdateClazzRequestDTO updateClazzRequest);
     List<ClazzDTO> getLearningClasses();
     List<ClazzDTO> searchClasses(SearchClazzDTO searchClazzDTO);
+
+    BaseResponse<Void> pin(Integer clazzId);
+    BaseResponse<Void> unPin(Integer clazzId);
 }

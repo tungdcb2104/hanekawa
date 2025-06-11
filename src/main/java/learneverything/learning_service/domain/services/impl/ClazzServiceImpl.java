@@ -5,8 +5,11 @@ import learneverything.learning_service.application.exceptions.BaseException;
 import learneverything.learning_service.application.exceptions.Error;
 import learneverything.learning_service.database.entities.ChapterEntity;
 import learneverything.learning_service.database.entities.ClazzEntity;
+import learneverything.learning_service.database.entities.PinClazzEntity;
 import learneverything.learning_service.database.repositories.ChapterRepository;
 import learneverything.learning_service.database.repositories.ClazzRepository;
+import learneverything.learning_service.database.repositories.PinClazzRepository;
+import learneverything.learning_service.domain.dtos.BaseResponse;
 import learneverything.learning_service.domain.dtos.chapter.ChapterDTO;
 import learneverything.learning_service.domain.dtos.clazz.ClazzDTO;
 import learneverything.learning_service.domain.dtos.clazz.CreateClazzRequestDTO;
@@ -32,6 +35,8 @@ public class ClazzServiceImpl implements ClazzService {
     private final ClazzMapper clazzMapper;
     private final ChapterRepository chapterRepository;
     private final ChapterMapper chapterMapper;
+
+    private final PinClazzRepository pinClazzRepo;
 
     @Override
     public ClazzDTO get(Integer id) {
@@ -81,6 +86,23 @@ public class ClazzServiceImpl implements ClazzService {
     public List<ClazzDTO> searchClasses(SearchClazzDTO searchClazzDTO) {
         List<ClazzEntity> clazzEntities = clazzRepository.findAll(searchLearningClasses(searchClazzDTO));
         return clazzMapper.toDTOs(clazzEntities);
+    }
+
+    @Override
+    public BaseResponse<Void> pin(Integer clazzId) {
+        int userId = Integer.parseInt(CommonUtils.getUserId());
+        PinClazzEntity pinClazz = pinClazzRepo.findFirstByUserIdAndClazzId(userId, clazzId).orElse(new PinClazzEntity());
+        pinClazz.setClazzId(clazzId);
+        pinClazz.setUserId(userId);
+        pinClazzRepo.save(pinClazz);
+        return new BaseResponse<>();
+    }
+
+    @Override
+    public BaseResponse<Void> unPin(Integer clazzId) {
+        int userId = Integer.parseInt(CommonUtils.getUserId());
+        pinClazzRepo.findFirstByUserIdAndClazzId(userId, clazzId).ifPresent(pinClazzRepo::delete);
+        return new BaseResponse<>();
     }
 
     private Specification<ClazzEntity> searchLearningClasses(SearchClazzDTO searchClazzDTO){

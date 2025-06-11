@@ -84,4 +84,13 @@ public class ClazzController {
     ){
         return ResponseEntity.ok(enrollmentService.unregister(clazzId));
     }
+
+    @PutMapping("/{id}/pin")
+    public ResponseEntity<Object> pinClazz(@PathVariable("id") Integer clazzId){
+        return ResponseEntity.ok(clazzService.pin(clazzId));
+    }
+    @PutMapping("/{id}/unPin")
+    public ResponseEntity<Object> unPinClazz(@PathVariable("id") Integer clazzId){
+        return ResponseEntity.ok(clazzService.pin(clazzId));
+    }
 }

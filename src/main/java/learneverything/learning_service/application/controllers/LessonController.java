@@ -3,6 +3,7 @@ package learneverything.learning_service.application.controllers;
 import jakarta.validation.Valid;
 import learneverything.learning_service.database.repositories.VocabularyRepository;
 import learneverything.learning_service.domain.dtos.lesson.LessonDTO;
+import learneverything.learning_service.domain.dtos.lesson.VoteLessonDTO;
 import learneverything.learning_service.domain.services.LessonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -34,5 +35,10 @@ public class LessonController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Integer id){
         return ResponseEntity.ok(lessonService.delete(id));
+    }
+
+    @PostMapping("/vote")
+    public ResponseEntity<Object> voteLesson(@RequestBody @Valid VoteLessonDTO request){
+        return ResponseEntity.ok(lessonService.voteLesson(request));
     }
 }
