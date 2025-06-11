@@ -21,8 +21,6 @@ import learneverything.learning_service.domain.services.ClazzService;
 import learneverything.learning_service.utils.CommonUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -103,6 +101,15 @@ public class ClazzServiceImpl implements ClazzService {
         int userId = Integer.parseInt(CommonUtils.getUserId());
         pinClazzRepo.findFirstByUserIdAndClazzId(userId, clazzId).ifPresent(pinClazzRepo::delete);
         return new BaseResponse<>();
+    }
+
+    @Override
+    public List<ClazzEntity> getPinClazz() {
+        int userId = Integer.parseInt(CommonUtils.getUserId());
+        List<Integer> clazzIds = pinClazzRepo.findByUserId(userId).stream()
+                .map(PinClazzEntity::getClazzId)
+                .distinct().toList();
+        return clazzRepository.findByIdIn(clazzIds);
     }
 
     private Specification<ClazzEntity> searchLearningClasses(SearchClazzDTO searchClazzDTO){
