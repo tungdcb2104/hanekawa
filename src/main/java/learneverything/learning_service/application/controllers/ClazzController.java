@@ -91,6 +91,6 @@ public class ClazzController {
     }
     @PutMapping("/{id}/unPin")
     public ResponseEntity<Object> unPinClazz(@PathVariable("id") Integer clazzId){
-        return ResponseEntity.ok(clazzService.pin(clazzId));
+        return ResponseEntity.ok(clazzService.unPin(clazzId));
     }
 }
