@@ -16,6 +16,7 @@ import learneverything.learning_service.domain.services.LessonService;
 import learneverything.learning_service.domain.services.study_strategies.IStudyStrategy;
 import learneverything.learning_service.domain.services.study_strategies.StrategyType;
 import learneverything.learning_service.domain.services.study_strategies.question_strategy.QuestionStrategy;
+import learneverything.learning_service.utils.StudyUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -55,9 +56,9 @@ public class FlashcardSimpleStrategy implements IStudyStrategy {
         for (LearningDTO learning : lesson.getListLearning()){
             if (learningProgressMap.containsKey(learning.getId())){
                 LearningProgressEntity learningProgressEntity = learningProgressMap.get(learning.getId());
-                    FlashCardDTO flashCard = (FlashCardDTO) learning;
-                    flashCard.setIsLearned(learningProgressEntity.getProgress() >= 3);
-                    learningDTOS.add(learning);
+                FlashCardDTO flashCard = (FlashCardDTO) learning;
+                flashCard.setIsLearned(learningProgressEntity.getProgress() >= 3);
+                learningDTOS.add(learning);
             }else {
                 FlashCardDTO flashCard = (FlashCardDTO) learning;
                 flashCard.setIsLearned(false);
@@ -65,6 +66,16 @@ public class FlashcardSimpleStrategy implements IStudyStrategy {
             }
         }
 
+        learningDTOS.sort((l1, l2) -> {
+            FlashCardDTO flashCard1 = (FlashCardDTO) l1;
+            FlashCardDTO flashCard2 = (FlashCardDTO) l2;
+            if (flashCard1.getIsLearned() && !flashCard2.getIsLearned()) {
+                return 1;
+            } else if (!flashCard1.getIsLearned() && flashCard2.getIsLearned()) {
+                return -1;
+            }
+            return 0;
+        });
         return Collections.singletonList(learningDTOS);
     }
 
@@ -72,10 +83,7 @@ public class FlashcardSimpleStrategy implements IStudyStrategy {
     public Object evaluate(LessonResultDTO result, String userId) {
         LessonDTO lesson = lessonService.get(result.getLessonId());
         String learningType = lesson.getLearningType();
-        StrategyType questionType = StrategyType.findByStrategy(FlashcardSimpleStrategy.class);
-        if (!questionType.getLearningType().getName().equals(learningType)){
-            throw new BaseException(Error.INVALID_STRATEGY,String.valueOf(result.getLessonId()));
-        }
+        StudyUtils.validateStudyStrategy(learningType,lesson.getId(), this.getClass());
 
         List<Long> learningIds = lesson.getListLearning()
                 .stream()

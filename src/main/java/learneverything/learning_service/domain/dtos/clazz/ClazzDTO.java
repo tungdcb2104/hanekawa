@@ -13,4 +13,5 @@ public class ClazzDTO {
     String image;
     List<String> categories;
     List<ChapterDTO> listChapter;
+    Boolean pinned;
 }

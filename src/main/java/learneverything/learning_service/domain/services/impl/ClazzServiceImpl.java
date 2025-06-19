@@ -23,8 +23,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -77,7 +77,25 @@ public class ClazzServiceImpl implements ClazzService {
     public List<ClazzDTO> getLearningClasses() {
         String userId = CommonUtils.getUserId();
         List<ClazzEntity> allLearningClasses = clazzRepository.getLearningClassesByUserId(userId);
-        return clazzMapper.toDTOs(allLearningClasses);
+        List<ClazzDTO> returns = clazzMapper.toDTOs(allLearningClasses);
+        Map<Integer,ClazzEntity> pinnedClasses = getPinClazz()
+                .stream().collect(Collectors.toMap(ClazzEntity::getId, e->e));
+        returns.forEach(e->{
+            e.setPinned(pinnedClasses.containsKey(e.getId()));
+        });
+
+
+        returns.sort((o1, o2) -> {
+            if (o1.getPinned()){
+                return -1;
+            }else if (o2.getPinned()){
+                return 1;
+            }else {
+                return 0;
+            }
+        });
+
+        return returns;
     }
 
     @Override

@@ -2,10 +2,8 @@ package learneverything.learning_service.domain.services.impl;
 
 import learneverything.learning_service.application.exceptions.BaseException;
 import learneverything.learning_service.application.exceptions.Error;
-import learneverything.learning_service.database.entities.LessonEntity;
 import learneverything.learning_service.database.repositories.LessonRepository;
 import learneverything.learning_service.domain.dtos.learning_result.LessonResultDTO;
-import learneverything.learning_service.domain.enums.LearningType;
 import learneverything.learning_service.domain.services.StudyService;
 import learneverything.learning_service.domain.services.study_strategies.IStudyStrategy;
 import learneverything.learning_service.domain.services.study_strategies.StrategyType;
@@ -15,9 +13,6 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-
-import static learneverything.learning_service.utils.CommonUtils.*;
 
 @Service
 public class StudyServiceImpl implements StudyService {
