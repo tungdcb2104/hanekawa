@@ -15,4 +15,6 @@ public interface LessonRepository extends JpaRepository<LessonEntity,Integer> {
         WHERE chapter_id = :chapter_id
         """, nativeQuery = true)
     List<LessonEntity> getLessonByChapterId(@Param("chapter_id") Integer chapterId);
+
+    List<LessonEntity> findByChapterIdIn(List<Integer> chapterIds);
 }

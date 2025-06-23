@@ -5,6 +5,9 @@ import lombok.Getter;
 @Getter
 public enum Error {
     BAD_REQUEST(400,"Bad request"),
+    UNAUTHORIZED(401,"Unauthorized"),
+    FORBIDDEN(403,"Forbidden"),
+    INTERNAL_SERVER_ERROR(500,"Internal server error"),
 
     NOT_FOUND_CLAZZ(404,"Not found clazz %s"),
     NOT_FOUND_LESSON(404,"Not found lesson %s"),

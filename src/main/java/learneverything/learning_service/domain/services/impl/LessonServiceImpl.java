@@ -2,10 +2,9 @@ package learneverything.learning_service.domain.services.impl;
 
 import learneverything.learning_service.application.exceptions.BaseException;
 import learneverything.learning_service.application.exceptions.Error;
-import learneverything.learning_service.database.entities.LearningEntity;
-import learneverything.learning_service.database.entities.LessonEntity;
-import learneverything.learning_service.database.entities.LessonRateEntity;
+import learneverything.learning_service.database.entities.*;
 import learneverything.learning_service.database.repositories.ChapterRepository;
+import learneverything.learning_service.database.repositories.ClazzRepository;
 import learneverything.learning_service.database.repositories.LessonRateRepository;
 import learneverything.learning_service.database.repositories.LessonRepository;
 import learneverything.learning_service.domain.dtos.BaseResponse;
@@ -39,6 +38,8 @@ public class LessonServiceImpl implements LessonService {
     private LearningMapper learningMapper;
     @Autowired
     private ChapterRepository chapterRepository;
+    @Autowired
+    private ClazzRepository clazzRepository;
 
     @Autowired
     private LessonRateRepository lessonRateRepo;
@@ -105,6 +106,21 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     public LessonDTO create(LessonDTO lesson) {
+
+        LessonEntity lessonEntity1 = lessonRepository.findById(lesson.getId())
+                .orElseThrow(() -> new BaseException(Error.NOT_FOUND_LESSON, String.valueOf(lesson.getId())));
+
+        ChapterEntity chapterEntity = chapterRepository.findById(lessonEntity1.getChapterId())
+                .orElseThrow(() -> new BaseException(Error.NOT_FOUND_CHAPTER, String.valueOf(lessonEntity1.getChapterId())));
+
+        ClazzEntity clazzEntity = clazzRepository.findById(chapterEntity.getClazzId())
+                .orElseThrow(()-> new BaseException(Error.NOT_FOUND_CLAZZ, chapterEntity.getClazzId().toString()));
+
+        String userId = CommonUtils.getUserId();
+        if (!userId.equals(clazzEntity.getAuthorId())){
+            throw new BaseException(Error.FORBIDDEN);
+        }
+
         if (CommonUtils.isNullOrEmpty(lesson.getLearningType())){
             throw new BaseException(Error.INVALID_LESSON);
         }
@@ -149,10 +165,25 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     public LessonDTO update(LessonDTO lesson) {
+        LessonEntity lessonEntity = lessonRepository.findById(lesson.getId())
+                .orElseThrow(() -> new BaseException(Error.NOT_FOUND_LESSON, String.valueOf(lesson.getId())));
+
+        ChapterEntity chapterEntity = chapterRepository.findById(lessonEntity.getChapterId())
+                .orElseThrow(() -> new BaseException(Error.NOT_FOUND_CHAPTER, String.valueOf(lessonEntity.getChapterId())));
+
+        ClazzEntity clazzEntity = clazzRepository.findById(chapterEntity.getClazzId())
+                .orElseThrow(()-> new BaseException(Error.NOT_FOUND_CLAZZ, chapterEntity.getClazzId().toString()));
+
+        String userId = CommonUtils.getUserId();
+        if (!userId.equals(clazzEntity.getAuthorId())){
+            throw new BaseException(Error.FORBIDDEN);
+        }
+
+
         if (!lessonRepository.existsById(lesson.getId())) {
             throw new BaseException(Error.NOT_FOUND_LESSON, String.valueOf(lesson.getId()));
         }
-        LessonEntity lessonEntity = lessonMapper.dtoToEntity(lesson);
+        lessonEntity = lessonMapper.dtoToEntity(lesson);
         // Check if the chapter exists
         if(chapterRepository.findById(lesson.getChapterId()).isEmpty()){
             throw new BaseException(Error.NOT_FOUND_CHAPTER, lesson.getChapterId().toString());
@@ -209,14 +240,19 @@ public class LessonServiceImpl implements LessonService {
         LessonEntity lessonEntity = lessonRepository.findById(id)
                 .orElseThrow(() -> new BaseException(Error.NOT_FOUND_LESSON, String.valueOf(id)));
 
-        // Delete learning entities associated with the lesson
-        String type = lessonEntity.getLearningType();
-        LearningType learningType = LearningType.getLearningTypeByName(type);
-        ICRUDLearningService repository = learningRepositoryMap.get(learningType.getCrudServiceClass());
-        delete(repository.getLearningByLesson(id));
+        ChapterEntity chapterEntity = chapterRepository.findById(lessonEntity.getChapterId())
+                .orElseThrow(() -> new BaseException(Error.NOT_FOUND_CHAPTER, String.valueOf(lessonEntity.getChapterId())));
 
-        lessonRepository.delete(lessonEntity);
+        ClazzEntity clazzEntity = clazzRepository.findById(chapterEntity.getClazzId())
+                .orElseThrow(()-> new BaseException(Error.NOT_FOUND_CLAZZ, chapterEntity.getClazzId().toString()));
 
+        String userId = CommonUtils.getUserId();
+        if (!userId.equals(clazzEntity.getAuthorId())){
+            throw new BaseException(Error.FORBIDDEN);
+        }
+
+        lessonEntity.setStatus(0);
+        lessonRepository.save(lessonEntity);
         return "Lesson with ID " + id + " deleted successfully.";
     }
 

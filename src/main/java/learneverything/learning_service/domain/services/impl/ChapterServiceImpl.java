@@ -15,6 +15,7 @@ import learneverything.learning_service.domain.dtos.lesson.LessonDTO;
 import learneverything.learning_service.domain.mappers.ChapterMapper;
 import learneverything.learning_service.domain.mappers.LessonMapper;
 import learneverything.learning_service.domain.services.ChapterService;
+import learneverything.learning_service.utils.CommonUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +33,10 @@ public class ChapterServiceImpl implements ChapterService {
     @Override
     public ChapterDTO get(Integer id) {
         ChapterEntity chapter = chapterRepository.findById(id).orElseThrow(()->new BaseException(Error.NOT_FOUND_LESSON,id.toString()));
+        if (chapter.getStatus() == 0){
+            throw new BaseException(Error.NOT_FOUND_LESSON,id.toString());
+        }
+
         ChapterDTO chapterDto = chapterMapper.toDTO(chapter);
 
         // get the lessson by chapter
@@ -48,7 +53,11 @@ public class ChapterServiceImpl implements ChapterService {
     @Override
     public Object create(CreateChapterRequestDTO createChapterRequest) {
         // Check if the lesson exists
-        ClazzEntity lesson = clazzRepository.findById(createChapterRequest.getClazzId()).orElseThrow(()->new BaseException(Error.NOT_FOUND_LESSON,createChapterRequest.getClazzId().toString()));
+        ClazzEntity clazz = clazzRepository.findById(createChapterRequest.getClazzId()).orElseThrow(()->new BaseException(Error.NOT_FOUND_LESSON,createChapterRequest.getClazzId().toString()));
+        String userId = CommonUtils.getUserId();
+        if (!userId.equals(clazz.getAuthorId())){
+            throw new BaseException(Error.FORBIDDEN);
+        }
 
         ChapterEntity chapter = chapterMapper.createDTOToEntity(createChapterRequest);
         chapter.setStatus(1);
@@ -58,7 +67,15 @@ public class ChapterServiceImpl implements ChapterService {
 
     @Override
     public String delete(Integer id) {
-        chapterRepository.deleteById(id);
+        ChapterEntity chapter = chapterRepository.findById(id).orElseThrow(()->new BaseException(Error.NOT_FOUND_LESSON,id.toString()));
+        ClazzEntity clazz = clazzRepository.findById(chapter.getClazzId()).orElseThrow(()->new BaseException(Error.NOT_FOUND_LESSON,chapter.getClazzId().toString()));
+        String userId = CommonUtils.getUserId();
+        if (!userId.equals(clazz.getAuthorId())){
+            throw new BaseException(Error.FORBIDDEN);
+        }
+
+        chapter.setStatus(0);
+        chapterRepository.save(chapter);
 
         return "Successful !";
     }
@@ -66,7 +83,11 @@ public class ChapterServiceImpl implements ChapterService {
     @Override
     public Object update(Integer id, UpdateChapterRequestDTO updateChapterRequest) {
         // Check if the lesson exists
-        ClazzEntity lesson = clazzRepository.findById(updateChapterRequest.getClazzId()).orElseThrow(()->new BaseException(Error.NOT_FOUND_LESSON,updateChapterRequest.getClazzId().toString()));
+        ClazzEntity clazz = clazzRepository.findById(updateChapterRequest.getClazzId()).orElseThrow(()->new BaseException(Error.NOT_FOUND_LESSON,updateChapterRequest.getClazzId().toString()));
+        String userId = CommonUtils.getUserId();
+        if (!userId.equals(clazz.getAuthorId())){
+            throw new BaseException(Error.FORBIDDEN);
+        }
 
         ChapterEntity chapter = chapterMapper.updateDTOToEntity(updateChapterRequest);
         chapter.setId(id);

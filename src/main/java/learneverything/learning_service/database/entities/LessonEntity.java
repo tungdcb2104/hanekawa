@@ -27,4 +27,7 @@ public class LessonEntity extends BaseEntity{
 
     @Column(name = "learning_type")
     String learningType;
+
+    @Column(name = "status")
+    Integer status;
 }

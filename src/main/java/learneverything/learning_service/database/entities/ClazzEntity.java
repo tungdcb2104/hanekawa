@@ -27,4 +27,12 @@ public class ClazzEntity extends BaseEntity{
 
     @Column(name = "image_url")
     String image;
+
+    /**
+     * 0 is deleted
+     * 1 is public
+     * 2 is draft
+     */
+    @Column(name = "status")
+    Integer status;
 }

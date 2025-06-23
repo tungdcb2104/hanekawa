@@ -5,9 +5,11 @@ import learneverything.learning_service.application.exceptions.BaseException;
 import learneverything.learning_service.application.exceptions.Error;
 import learneverything.learning_service.database.entities.ChapterEntity;
 import learneverything.learning_service.database.entities.ClazzEntity;
+import learneverything.learning_service.database.entities.LessonEntity;
 import learneverything.learning_service.database.entities.PinClazzEntity;
 import learneverything.learning_service.database.repositories.ChapterRepository;
 import learneverything.learning_service.database.repositories.ClazzRepository;
+import learneverything.learning_service.database.repositories.LessonRepository;
 import learneverything.learning_service.database.repositories.PinClazzRepository;
 import learneverything.learning_service.domain.dtos.BaseResponse;
 import learneverything.learning_service.domain.dtos.chapter.ChapterDTO;
@@ -33,7 +35,7 @@ public class ClazzServiceImpl implements ClazzService {
     private final ClazzMapper clazzMapper;
     private final ChapterRepository chapterRepository;
     private final ChapterMapper chapterMapper;
-
+    private final LessonRepository lessonRepository;
     private final PinClazzRepository pinClazzRepo;
 
     @Override
@@ -59,7 +61,26 @@ public class ClazzServiceImpl implements ClazzService {
 
     @Override
     public String delete(Integer id) {
-        clazzRepository.deleteById(id);
+        String userId = CommonUtils.getUserId();
+        ClazzEntity clazzEntity = clazzRepository.findById(id).orElseThrow(()->new BaseException(Error.NOT_FOUND_LESSON,id.toString()));
+        if (!userId.equals(clazzEntity.getAuthorId())){
+            throw new BaseException(Error.FORBIDDEN);
+        }
+        clazzEntity.setStatus(0);
+        List<ChapterEntity> chapterEntities = chapterRepository.findActiveChaptersOfClazz(id);
+        chapterEntities.forEach(e->{
+            e.setStatus(0);
+        });
+
+        List<LessonEntity> lessonEntities = lessonRepository.findByChapterIdIn(chapterEntities.stream().map(ChapterEntity::getId).toList());
+        lessonEntities.forEach(e->{
+            e.setStatus(0);
+        });
+
+        clazzRepository.save(clazzEntity);
+        chapterRepository.saveAll(chapterEntities);
+        lessonRepository.saveAll(lessonEntities);
+
         return "Successful !";
     }
 
@@ -68,6 +89,10 @@ public class ClazzServiceImpl implements ClazzService {
         ClazzEntity clazzEntity = clazzRepository.findById(id)
                 .orElseThrow(()->new BaseException(Error.NOT_FOUND_LESSON,id.toString()));
 
+        String userId = CommonUtils.getUserId();
+        if (!userId.equals(clazzEntity.getAuthorId())){
+            throw new BaseException(Error.FORBIDDEN);
+        }
         clazzMapper.updateDtoToEntity(updateClazzRequest,clazzEntity);
 
         return clazzRepository.save(clazzEntity);
