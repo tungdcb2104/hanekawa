@@ -18,7 +18,7 @@ public class PinClazzEntity extends BaseEntity{
     Long id;
 
     @Column(name = "user_id")
-    Integer userId;
+    String userId;
 
     @Column(name = "clazz_id")
     Integer clazzId;

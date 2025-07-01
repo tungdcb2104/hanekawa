@@ -131,7 +131,7 @@ public class ClazzServiceImpl implements ClazzService {
 
     @Override
     public BaseResponse<Void> pin(Integer clazzId) {
-        int userId = Integer.parseInt(CommonUtils.getUserId());
+        String userId = CommonUtils.getUserId();
         PinClazzEntity pinClazz = pinClazzRepo.findFirstByUserIdAndClazzId(userId, clazzId).orElse(new PinClazzEntity());
         pinClazz.setClazzId(clazzId);
         pinClazz.setUserId(userId);
@@ -141,14 +141,14 @@ public class ClazzServiceImpl implements ClazzService {
 
     @Override
     public BaseResponse<Void> unPin(Integer clazzId) {
-        int userId = Integer.parseInt(CommonUtils.getUserId());
+        String userId = CommonUtils.getUserId();
         pinClazzRepo.findFirstByUserIdAndClazzId(userId, clazzId).ifPresent(pinClazzRepo::delete);
         return new BaseResponse<>();
     }
 
     @Override
     public List<ClazzEntity> getPinClazz() {
-        int userId = Integer.parseInt(CommonUtils.getUserId());
+        String userId = CommonUtils.getUserId();
         List<Integer> clazzIds = pinClazzRepo.findByUserId(userId).stream()
                 .map(PinClazzEntity::getClazzId)
                 .distinct().toList();

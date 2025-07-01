@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface PinClazzRepository extends JpaRepository<PinClazzEntity, Long> {
-    Optional<PinClazzEntity> findFirstByUserIdAndClazzId(int userId, Integer clazzId);
+    Optional<PinClazzEntity> findFirstByUserIdAndClazzId(String userId, Integer clazzId);
 
-    List<PinClazzEntity> findByUserId(int userId);
+    List<PinClazzEntity> findByUserId(String userId);
 }
