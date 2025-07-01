@@ -106,11 +106,17 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     public LessonDTO create(LessonDTO lesson) {
+        LessonEntity lessonEntity1;
+        if (lesson.getId() != null) {
+            lessonEntity1 = lessonRepository.findById(lesson.getId()).orElseThrow(
+                () -> new BaseException(Error.NOT_FOUND_LESSON, String.valueOf(lesson.getId()))
+            );
+        }
+        else {
+            lessonEntity1 = new LessonEntity();
+        }
 
-        LessonEntity lessonEntity1 = lessonRepository.findById(lesson.getId())
-                .orElseThrow(() -> new BaseException(Error.NOT_FOUND_LESSON, String.valueOf(lesson.getId())));
-
-        ChapterEntity chapterEntity = chapterRepository.findById(lessonEntity1.getChapterId())
+        ChapterEntity chapterEntity = chapterRepository.findById(lesson.getChapterId())
                 .orElseThrow(() -> new BaseException(Error.NOT_FOUND_CHAPTER, String.valueOf(lessonEntity1.getChapterId())));
 
         ClazzEntity clazzEntity = clazzRepository.findById(chapterEntity.getClazzId())

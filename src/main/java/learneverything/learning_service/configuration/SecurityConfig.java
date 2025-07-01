@@ -29,8 +29,14 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
         http.authorizeHttpRequests((auth)->
-                    auth.anyRequest().authenticated()
+                    auth.requestMatchers(
+                            "/swagger-ui/**",
+                            "/v3/api-docs/**",
+                            "/v3/api-docs"
+                            ).permitAll()
+                            .anyRequest().authenticated()
                 );
 
         http.sessionManagement(sess -> sess.sessionCreationPolicy(
