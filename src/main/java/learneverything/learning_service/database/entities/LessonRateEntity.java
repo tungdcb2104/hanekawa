@@ -17,7 +17,7 @@ public class LessonRateEntity extends BaseEntity {
     Long id;
 
     @Column(name = "user_id")
-    Integer userId;
+    String userId;
 
     @Column(name = "lesson_id")
     Integer lessonId;

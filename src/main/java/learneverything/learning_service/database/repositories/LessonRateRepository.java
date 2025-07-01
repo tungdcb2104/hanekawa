@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface LessonRateRepository extends JpaRepository<LessonRateEntity, Long> {
-    Optional<LessonRateEntity> findFirstByUserIdAndLessonId( int userId, int lessonId);
+    Optional<LessonRateEntity> findFirstByUserIdAndLessonId(String userId, int lessonId);
 }

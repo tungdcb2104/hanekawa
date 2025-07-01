@@ -98,7 +98,7 @@ public class LessonServiceImpl implements LessonService {
                 .toList();
 
         lessonDTO.setListLearning(learningDTOS);
-        int userId = Integer.parseInt(CommonUtils.getUserId());
+        String userId = CommonUtils.getUserId();
         LessonRateEntity lessonRate=  lessonRateRepo.findFirstByUserIdAndLessonId(userId, id).orElse(new LessonRateEntity());
         lessonDTO.setRate(lessonRate.getRate());
         return lessonDTO;
@@ -265,7 +265,7 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     public Object voteLesson(VoteLessonDTO request) {
-        int userId = Integer.parseInt(CommonUtils.getUserId());
+        String userId = CommonUtils.getUserId();
 
         if (request.getRate() == null) {
             lessonRateRepo.findFirstByUserIdAndLessonId(userId, request.getLessonId())
