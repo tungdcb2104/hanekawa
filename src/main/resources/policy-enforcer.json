@@ -1,0 +1,89 @@
+{
+  "realm" : "learning_everything",
+  "auth-server-url" : "http://localhost:8080",
+  "resource" : "learning_everything_client",
+  "enforcement-mode" : "PERMISSIVE",
+  "paths": [
+    {
+      "path" : "/v1/clazz",
+      "methods" : [
+        {
+          "method": "POST",
+          "scopes" : ["CREATE"]
+
+        }
+      ]
+    },
+    {
+      "path" : "/v1/clazz/{id}",
+      "methods" : [
+        {
+          "method" : "GET",
+          "scopes" : ["VIEW"]
+        },
+        {
+          "method": "PUT",
+          "scopes" : ["EDIT"]
+        },
+        {
+          "method": "DELETE",
+          "scopes" : ["DELETE"]
+        }
+      ]
+    },
+    {
+      "path" : "/v1/chapter",
+      "methods" : [
+        {
+          "method": "POST",
+          "scopes" : ["CREATE"]
+
+        }
+      ]
+    },
+    {
+      "path" : "/v1/chapter/{id}",
+      "methods" : [
+        {
+          "method" : "GET",
+          "scopes" : ["VIEW"]
+        },
+        {
+          "method": "PUT",
+          "scopes" : ["EDIT"]
+        },
+        {
+          "method": "DELETE",
+          "scopes" : ["DELETE"]
+        }
+      ]
+    },
+    {
+      "path" : "/v1/lesson",
+      "methods" : [
+        {
+          "method": "POST",
+          "scopes" : ["CREATE"]
+
+        }
+      ]
+    },
+    {
+      "path" : "/v1/lesson/{id}",
+      "methods" : [
+        {
+          "method" : "GET",
+          "scopes" : ["VIEW"]
+        },
+        {
+          "method": "PUT",
+          "scopes" : ["EDIT"]
+        },
+        {
+          "method": "DELETE",
+          "scopes" : ["DELETE"]
+        }
+      ]
+    }
+  ]
+}
